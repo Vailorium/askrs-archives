@@ -1,0 +1,11 @@
+plugins:
+  - 'react'
+
+extends:
+  - 'airbnb-typescript'
+
+parserOptions:
+  project: './tsconfig.json'
+
+rules:
+  linebreak-style: 'off'
