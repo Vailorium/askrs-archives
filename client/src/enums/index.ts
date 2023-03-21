@@ -8,7 +8,7 @@ export enum IVS {
   res,
 }
 
-export enum Blessing{
+export enum Element{
   none,
   fire,
   water,
@@ -122,6 +122,8 @@ export enum Kind{
   blessed,
   duo,
   harmonic,
+  ascended,
+  rearmed,
 }
 
 export enum SupportLevel {

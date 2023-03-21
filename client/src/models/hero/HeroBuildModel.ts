@@ -14,7 +14,7 @@ export interface HeroBuildModel{
     s?: SkillDataModel
   };
   resplendent: boolean;
-  ivs: { boon: number, bane: number };
+  ivs: { boon: number, bane: number, floret: number };
   dragonflowers: number;
   blessing: number;
   summonerSupport: number;

@@ -1,6 +1,33 @@
 @import "~bootstrap/scss/bootstrap";
 
 .main{
-    min-height: calc(100vh - 112px);
-    background-repeat: repeat;
+	min-height: calc(100vh - 112px);
+	background-repeat: repeat;
+}
+
+// Custom Select Field
+.custom-option:hover {
+	background: #deebff;
+}
+
+.custom-option.select-field__option--is-focused {
+	background: none;
+}
+.custom-option.select-field__option--is-selected {
+	background: #2684FF;
+}
+
+.react-virtualized-menu-placeholder {
+	margin-top: 12px;
+	color: #9a9a9a;
+	text-align: center;
+}
+.react-virtualized-list-wrapper li {
+	list-style: none;
+}
+
+// Radio Button
+.square-radio {
+	height: 42px;
+	width: 42px;
 }

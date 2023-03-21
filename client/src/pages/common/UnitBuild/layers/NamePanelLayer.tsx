@@ -1,20 +1,28 @@
 import React, { useRef, useEffect } from 'react';
+import { Dictionary } from '../../../../models';
 import CanvasHelper from '../../../../services/CanvasHelper';
 
 interface LayerProps {
-  name: string;
-  title: string;
+  idTag: string;
   rarity: number;
+  localeData: Dictionary<string | null>;
 }
 
 function NamePanelLayer(props: LayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rarityImg = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/rarity.png`;
+  const { idTag, rarity, localeData } = props;
   const draw = async () => {
-    const { title, name, rarity } = props;
+    const name = localeData[`M${idTag}`];
+    const heroIDSplit = idTag.split('_');
+    const heroID = heroIDSplit[heroIDSplit.length - 1];
+    const heroTitleID = `MPID_HONOR_${heroID}`;
+    const title = localeData[heroTitleID];
     if (canvasRef.current && document.fonts.check('23px Fire_Emblem_Heroes_Font')) {
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) {
+        ctx.clearRect(0, 0, 500, 960);
+
         ctx.lineJoin = 'miter';
         ctx.miterLimit = 1;
         ctx.strokeStyle = '#000000';
@@ -52,7 +60,7 @@ function NamePanelLayer(props: LayerProps) {
 
       draw();
     }
-  }, []);
+  }, [idTag]);
 
   return (
     <canvas

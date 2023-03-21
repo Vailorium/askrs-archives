@@ -1,8 +1,9 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { SkillDataModel } from '../../models';
-import config from '../../config';
+import { SkillDataModel } from '../../../models';
+import config from '../../../config';
+import SkillName from './SkillName';
 
 function SkillSprite(props: { skill: SkillDataModel, size: 'xs' | 'sm' | 'md' | 'lg' }) {
   const { skill, size } = props;
@@ -22,8 +23,7 @@ function SkillSprite(props: { skill: SkillDataModel, size: 'xs' | 'sm' | 'md' | 
       placement="bottom"
       overlay={(
         <Tooltip id="skill">
-          {skill.name_id}
-          &nbsp;(TEMP)
+          <SkillName skill={skill} locale="USEN" />
         </Tooltip>
       )}
     >

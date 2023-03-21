@@ -1,8 +1,10 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { HeroDataModel } from '../../models';
-import config from '../../config';
+import { HeroDataModel } from '../../../models';
+import config from '../../../config';
+import HeroName from './HeroName';
+import HeroTitle from './HeroTitle';
 
 function HeroIcon(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg', isResplendent: boolean }) {
   const { hero, size, isResplendent } = props;
@@ -21,10 +23,9 @@ function HeroIcon(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg',
       placement="bottom"
       overlay={(
         <Tooltip id="skill">
-          {hero.name}
-          :
-          &nbsp;
-          {hero.title}
+          <HeroName hero={hero} locale="USEN" />
+          :&nbsp;
+          <HeroTitle hero={hero} locale="USEN" />
         </Tooltip>
       )}
     >

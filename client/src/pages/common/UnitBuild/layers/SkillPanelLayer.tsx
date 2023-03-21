@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import config from '../../../../config';
 
-import { SkillDataModel } from '../../../../models';
+import { Dictionary, SkillDataModel } from '../../../../models';
 import CanvasHelper from '../../../../services/CanvasHelper';
 
 interface LayerProps {
@@ -17,6 +17,7 @@ interface LayerProps {
     c?: SkillDataModel,
     s?: SkillDataModel,
   }
+  localeData: Dictionary<string | null>;
 }
 function SkillPanelLayer(props: LayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -25,7 +26,7 @@ function SkillPanelLayer(props: LayerProps) {
     if (canvasRef.current && document.fonts.check('23px Fire_Emblem_Heroes_Font')) {
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) {
-        const { skills } = props;
+        const { skills, localeData } = props;
         ctx.lineJoin = 'miter';
         ctx.miterLimit = 1;
         ctx.strokeStyle = config.CANVAS.COLORS.BLACK;
@@ -37,11 +38,20 @@ function SkillPanelLayer(props: LayerProps) {
 
         const skillKeys = ['weapon', 'assist', 'special', 'a', 'b', 'c', 's'];
         for (let i = 0; i < skillKeys.length; i += 1) {
-          const key = skillKeys[i];
+          let key = skillKeys[i];
+          if (i === 0 && skills.refine) {
+            key = 'refine';
+          }
           const skill: SkillDataModel | undefined = skills[key as keyof LayerProps['skills']];
 
           if (skill !== undefined) {
-            CanvasHelper.drawFEHText(ctx, skill.name, 290, 573 + (34.25 * i));
+            const skillName = localeData[skill.name_id];
+            if (key === 'refine') {
+              ctx.fillStyle = config.CANVAS.COLORS.GREEN;
+            } else {
+              ctx.fillStyle = config.CANVAS.COLORS.WHITE;
+            }
+            CanvasHelper.drawFEHText(ctx, skillName as string, 290, 573 + (34.25 * i));
 
             const sheet = Math.floor(
               skill.icon_id / (config.SPRITESHEET_HEIGHT * config.SPRITESHEET_WIDTH),

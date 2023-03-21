@@ -1,15 +1,22 @@
+/* eslint-disable max-len */
 import React from 'react';
+import { Dictionary } from '../../../models';
 import UnitBuildValuesModel from '../../../models/UnitBuild/UnitBuildValuesModel';
 import CanvasHelper from '../../../services/CanvasHelper';
 import StatsCalculator from '../../../services/StatsCalculator';
 import BackgroundLayer from './layers/BackgroundLayer';
+import ExtraIconsLayer from './layers/ExtraIconsLayer';
 import ForegroundLayer from './layers/ForegroundLayer';
 import NamePanelLayer from './layers/NamePanelLayer';
 import SkillPanelLayer from './layers/SkillPanelLayer';
 import StatsPanelLayer from './layers/StatsPanelLayer';
 import UnitLayer from './layers/UnitLayer';
 
-class UnitBuild extends React.Component<{ unit: UnitBuildValuesModel }> {
+interface UnitBuildProps {
+  unit: UnitBuildValuesModel;
+  localeData: Dictionary<string | null> | null | undefined;
+}
+class UnitBuild extends React.Component<UnitBuildProps> {
   componentDidMount() {
     if (CanvasHelper.FEHFont.status !== 'loaded') {
       CanvasHelper.loadFEHFont().then(() => {
@@ -19,7 +26,7 @@ class UnitBuild extends React.Component<{ unit: UnitBuildValuesModel }> {
   }
 
   render() {
-    const { unit } = this.props;
+    const { unit, localeData } = this.props;
     const { hero, build } = unit;
     const stats = StatsCalculator.calculateStats(unit);
     return CanvasHelper.FEHFont.status === 'loaded' && (
@@ -31,12 +38,12 @@ class UnitBuild extends React.Component<{ unit: UnitBuildValuesModel }> {
             key={hero.face_name + unit.resplendentCostume}
           />
         )}
-        { hero.name && (
+        { hero.id_tag && localeData && (
         <NamePanelLayer
-          name={hero.name}
-          title={hero.title}
+          idTag={hero.id_tag}
           rarity={build.rarity}
           key={`${hero.name}: ${hero.title} ${build.rarity}`} // key to refresh on props change
+          localeData={localeData}
         />
         ) }
         <StatsPanelLayer
@@ -44,11 +51,17 @@ class UnitBuild extends React.Component<{ unit: UnitBuildValuesModel }> {
           IVS={build.ivs}
           key={JSON.stringify(stats) + JSON.stringify(build.ivs)}
         />
-        <SkillPanelLayer
-          skills={build.skills}
-          key={JSON.stringify(build.skills)}
-        />
+        {
+          localeData && (
+            <SkillPanelLayer
+              skills={build.skills}
+              key={JSON.stringify(build.skills)}
+              localeData={localeData}
+            />
+          )
+        }
         <ForegroundLayer unit={unit} key={`${unit.build.dragonflowers}-${unit.build.merges}-${unit.build.blessing}`} />
+        <ExtraIconsLayer blessing={unit.build.blessing} legendary={unit.hero.legendary} IVS={unit.build.ivs} />
       </div>
     );
   }

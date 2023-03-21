@@ -1,5 +1,5 @@
 import { Stats, HeroBuildInfoModel, HeroDataModel } from '../models';
-import { Blessing, IVS } from '../enums';
+import { Element, IVS } from '../enums';
 import config from '../config';
 import HeroData from './HeroData';
 
@@ -91,6 +91,11 @@ class StatsCalculator {
       growths[IVS[buildData.build.ivs.boon] as keyof Stats] += 5;
       bst[IVS[buildData.build.ivs.boon] as keyof Stats] += 1;
     }
+    if (buildData.build.ivs.floret !== 0
+      && buildData.build.ivs.floret !== buildData.build.ivs.boon) {
+      growths[IVS[buildData.build.ivs.floret] as keyof Stats] += 5;
+      bst[IVS[buildData.build.ivs.floret] as keyof Stats] += 1;
+    }
     if (buildData.build.ivs.bane !== 0 && buildData.build.merges === 0) {
       growths[IVS[buildData.build.ivs.bane] as keyof Stats] -= 5;
       bst[IVS[buildData.build.ivs.bane] as keyof Stats] -= 1;
@@ -151,7 +156,7 @@ class StatsCalculator {
       hp: 0, atk: 0, spd: 0, def: 0, res: 0,
     };
     // if hero isn't legendary/mythic and has a blessing
-    if (buildData.build.blessing !== Blessing.none
+    if (buildData.build.blessing !== Element.none
       && !HeroData.isLegendaryOrMythic(buildData.hero)) {
       allies.forEach((ally) => {
         // if hero has correct blessing and blessing is on season
@@ -174,7 +179,7 @@ class StatsCalculator {
       hp: 0, atk: 0, spd: 0, def: 0, res: 0,
     };
     // if hero isn't mythic or unblessed
-    if (buildData.build.blessing !== Blessing.none
+    if (buildData.build.blessing !== Element.none
         && !HeroData.isMythic(buildData.hero)) {
       allies.forEach((ally) => {
         // if ally blessing is mythic and this ally is on-season mythic

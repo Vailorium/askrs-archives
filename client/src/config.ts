@@ -14,7 +14,8 @@ interface Config {
   FULL_HEIGHT: { xs: number, sm: number, md: number, lg: number };
   FULL_WIDTH: { xs: number, sm: number, md: number, lg: number };
   CANVAS: {
-    COLORS: { WHITE: string, BLACK: string, YELLOW: string, RED: string, BLUE: string };
+    // eslint-disable-next-line max-len
+    COLORS: { WHITE: string, BLACK: string, YELLOW: string, RED: string, BLUE: string, GREEN: string };
   };
 }
 
@@ -181,7 +182,7 @@ const config: Config = {
         s: undefined,
       },
       resplendent: false,
-      ivs: { boon: 0, bane: 0 },
+      ivs: { boon: 0, bane: 0, floret: 0 },
       dragonflowers: 0,
       blessing: 0,
       summonerSupport: 0,
@@ -221,6 +222,7 @@ const config: Config = {
       YELLOW: '#FEF995',
       BLUE: '#B1ECFA',
       RED: '#F0A5B3',
+      GREEN: '#83F646',
     },
   },
 };

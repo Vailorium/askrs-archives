@@ -1,13 +1,23 @@
-FROM node:14.18.3-alpine3.15
-
-ARG NODE_ENV=development
+FROM python:3.10.9-alpine AS prebuild
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY . .
+COPY scripts scripts
 
-WORKDIR /usr/src/app
+COPY server server
+
+WORKDIR /usr/src/app/scripts
+
+RUN python data_extract/main.py
+
+FROM node:14.18.3-alpine3.15 as build
+
+COPY --from=prebuild /usr/src/app/server /usr/src/app/server
+
+WORKDIR /usr/src/app/server
+
+ARG NODE_ENV=development
 
 RUN npm install
 

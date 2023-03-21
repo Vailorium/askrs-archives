@@ -1,5 +1,7 @@
-import Utils
+import Utils, os, sys
 
+# Set correct working dir
+os.chdir(os.path.dirname(sys.argv[0]))
 # Hero
 def handleHeroData():
   print("Loading Hero Data")
@@ -9,7 +11,9 @@ def handleHeroData():
   print("Grouping Hero Data")
   for group in walkedData:
     for hero in group:
-      heroData.append(hero)
+      # If hero isn't none hero
+      if hero['id_tag'] != 'PID_無し':
+        heroData.append(hero)
   print("Saving data to server/data/heroes/hero_list.json")
   Utils.saveJSONDataToFile(heroData, 'heroes/hero_list.json')
 
@@ -68,7 +72,7 @@ def handleLocaleData():
         data[point['key']] = point['value']
 
     print('Saving to file server/data/locales/locale_'+locale+'.json')
-    Utils.saveJSONDataToFile(data, 'server/data/locales/locale_'+locale+'.json')
+    Utils.saveJSONDataToFile(data, 'locales/locale_'+locale+'.json')
 
 handleHeroData()
 handleSkillData()

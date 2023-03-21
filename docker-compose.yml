@@ -3,8 +3,8 @@ version: '3.9'
 services:
   server:
     build:
-      context: ./server
-      dockerfile: ./Dockerfile
+      context: ./
+      dockerfile: ./server/Dockerfile
     image: askrs-archives-server:${BUILD_VER}
     container_name: askrs-archives-server
     command: npm run start
@@ -30,7 +30,7 @@ services:
     container_name: askrs-archives-client
     command: npm run start
     volumes:
-      - /usr/app/node_modules
+      - /usr/src/app/node_modules
     depends_on:
       - server
     ports:

@@ -1,7 +1,8 @@
 import { Server } from 'http';
 import * as bodyParser from 'body-parser';
-import express, { Express, Request, Response } from 'express';
-import path from 'path';
+import express, { Express } from 'express';
+import cors from 'cors';
+import Controller from './interfaces/Controller';
 
 const cookieParser = require('cookie-parser');
 
@@ -12,36 +13,28 @@ class App {
 
   public port: number;
 
-  constructor(controllers: Array<any>, port: number) {
+  constructor(controllers: Array<Controller>, port: number) {
     this.app = express();
     this.port = port;
 
     this.initialize(controllers);
   }
 
-  private initialize = async (controllers: Array<any>) => {
+  private initialize = async (controllers: Array<Controller>) => {
     this.initializeMiddleware();
     this.initializeControllers(controllers);
-    this.initializeStaticRouting();
   };
 
   private initializeMiddleware = () => {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
+    this.app.use(cors());
   };
 
-  private initializeControllers = (controllers: Array<any>) => {
+  private initializeControllers = (controllers: Array<Controller>) => {
     controllers.forEach((controller) => {
       this.app.use('/api/', controller.router);
-    });
-  };
-
-  private initializeStaticRouting = () => {
-    this.app.use(express.static(path.join(__dirname, '../../client', 'build')));
-    this.app.use(express.static('public'));
-    this.app.use((req: Request, res: Response) => {
-      res.sendFile(path.join(__dirname, '../../client', 'build', 'index.html'));
     });
   };
 

@@ -1,7 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 import { FieldProps } from 'formik';
+import SelectFieldCustomOption from './SelectFieldCustomOption';
+import SelectFieldVirtualMenuList from './SelectFieldVirtualMenuList';
 
 // designed to handle validation and match bootstrap (v5) form styles
 const SelectField = ({
@@ -16,15 +18,19 @@ const SelectField = ({
   visualIndicators,
   expandMultiLine,
   onChangeEvent = () => {},
+  virtual = false,
   ...rest
 // eslint-disable-next-line max-len
-}: FieldProps & { options: any[], isValid: boolean, isInvalid: boolean, errorMessage: string, defaultValue: any, isDisabled: boolean, visualIndicators: boolean, expandMultiLine: boolean, onChangeEvent: (option: { label: string, value: any }) => void }): JSX.Element => (
+}: FieldProps & { options: any[], isValid: boolean, isInvalid: boolean, errorMessage: string, defaultValue: any, isDisabled: boolean, visualIndicators: boolean, expandMultiLine: boolean, onChangeEvent: (option: { label: string, value: any }) => void, virtual: boolean }): JSX.Element => (
   <>
     <Select
       placeholder="--"
       options={options}
       name={field.name}
       isDisabled={isDisabled}
+      filterOption={createFilter({ ignoreAccents: true })}
+      className="select-field"
+      classNamePrefix="select-field"
       styles={{
         control: (base, state) => ({
           ...base,
@@ -54,6 +60,14 @@ const SelectField = ({
       value={defaultValue ? defaultValue(options)
         : options.find((option) => option.value === field.value)}
       onBlur={field.onBlur}
+      getOptionValue={(option) => option.label}
+      getOptionLabel={(option) => (option.optionLabel ? option.optionLabel : option.label)}
+      captureMenuScroll={!virtual}
+      // @ts-ignore
+      components={
+        virtual ? { Option: SelectFieldCustomOption, MenuList: SelectFieldVirtualMenuList }
+          : undefined
+      }
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
     />

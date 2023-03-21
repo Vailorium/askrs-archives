@@ -1,6 +1,6 @@
 import React from 'react';
 import { HeroDataModel } from '../../../models';
-import HeroIcon from '../../common/HeroIcon';
+import HeroIcon from '../../common/Hero/HeroIcon';
 
 function UnitIcon(props: { hero: HeroDataModel }) {
   const { hero } = props;

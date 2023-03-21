@@ -2,7 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { HeroDataModel, SkillDataModel } from '../../../models';
 import HeroData from '../../../services/HeroData';
-import SkillSprite from '../../common/SkillSprite';
+import SkillSprite from '../../common/Skill/SkillSprite';
 
 interface SkillTableProps {
   skillList: SkillDataModel[];

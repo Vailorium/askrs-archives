@@ -1,7 +1,7 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
-import { HeroDataModel } from '../../models';
-import config from '../../config';
+import { HeroDataModel } from '../../../models';
+import config from '../../../config';
 
 function HeroFull(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg' | 'auto', isResplendent: boolean, fullType: 'default' | 'attack' | 'special' | 'damaged' }) {
   const {

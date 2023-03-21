@@ -21,7 +21,7 @@ class UnitLayer extends React.Component<LayerProps> {
         style={{
           backgroundImage: `url('${image}')`,
           backgroundSize: '180%',
-          backgroundPosition: 'center 0px',
+          backgroundPosition: 'center 10px', // center H, 10px down V
           height: '900px',
           width: '500px',
           backgroundRepeat: 'no-repeat',

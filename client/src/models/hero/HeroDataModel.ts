@@ -1,4 +1,4 @@
-import { Stats } from '../Generics';
+import { Legendary, Stats } from '../Generics';
 
 export interface HeroDataModel{
   name: string;
@@ -7,15 +7,7 @@ export interface HeroDataModel{
   roman: string;
   face_name: string;
   face_name2: string;
-  legendary: {
-    duo_skill_id: string;
-    bonus_effect: Stats;
-    kind: number;
-    element: number;
-    bst: number;
-    pair_up: boolean;
-    ae_extra: boolean;
-  } | null,
+  legendary: Legendary | null,
   dragonflowers: {
     max_count: number;
     costs: number[];

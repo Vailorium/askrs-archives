@@ -13,7 +13,7 @@ import {
   SkillDataModel, HeroDataModel, HeroBuildInfoModel, Stats,
 } from '../../models';
 // import DataService from '../../services/DataService';
-import HeroFull from '../common/HeroFull';
+import HeroFull from '../common/Hero/HeroFull';
 import StatsCalculator from '../../services/StatsCalculator';
 import SkillTable from './Components/SkillTable';
 

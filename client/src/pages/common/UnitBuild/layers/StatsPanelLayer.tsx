@@ -6,7 +6,7 @@ import CanvasHelper from '../../../../services/CanvasHelper';
 
 interface LayerProps {
   stats: Stats;
-  IVS: { boon: number, bane: number };
+  IVS: { boon: number, bane: number, floret: number };
 }
 function StatsPanelLayer(props: LayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -30,9 +30,9 @@ function StatsPanelLayer(props: LayerProps) {
 
           // Stat name
           ctx.textAlign = 'center';
-          if (IVS.boon === i + 1 && IVS.bane !== i + 1) {
+          if ((IVS.boon === i + 1 || IVS.floret === i + 1) && IVS.bane !== i + 1) {
             ctx.fillStyle = config.CANVAS.COLORS.BLUE;
-          } else if (IVS.bane === i + 1 && IVS.boon !== i + 1) {
+          } else if (IVS.bane === i + 1 && IVS.boon !== i + 1 && IVS.floret !== i + 1) {
             ctx.fillStyle = config.CANVAS.COLORS.RED;
           } else {
             ctx.fillStyle = config.CANVAS.COLORS.WHITE;
