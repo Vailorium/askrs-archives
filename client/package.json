@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/react-bootstrap-typeahead": "^5.1.6",
-    "@types/react-infinite-scroller": "^1.2.2",
+    "@types/react-infinite-scroller": "^1.2.3",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-select": "^4.0.18",
     "@typescript-eslint/eslint-plugin": "^5.0.0",

@@ -23,6 +23,7 @@ class App {
   private initialize = async (controllers: Array<Controller>) => {
     this.initializeMiddleware();
     this.initializeControllers(controllers);
+    this.initializePingEndpoint();
   };
 
   private initializeMiddleware = () => {
@@ -37,6 +38,13 @@ class App {
       this.app.use('/api/', controller.router);
     });
   };
+
+  private initializePingEndpoint = () => {
+    this.app.use('/ping', (req, res) => {
+      res.set('Cache-Control', 'no-store');
+      res.send('Pong!');
+    });
+  }
 
   public listen() {
     import('http').then((http) => {

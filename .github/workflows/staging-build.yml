@@ -1,0 +1,47 @@
+name: Staging Build
+
+on:
+  # push:
+  #   branches: [ main ]
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Image version'
+        required: true
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      
+      - name: Build container images
+        run: docker compose -f docker-compose.staging.yml build
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Login to Doctl
+        run: doctl registry login
+
+      - name: Remove old client images
+        run: if [ ! -z "$(doctl registry repository list | grep askrs-archives-client)" ]; then doctl registry repository delete-manifest askrs-archives-client $(doctl registry repository list-tags askrs-archives-client | grep -o "sha.*") --force; else echo "No repository client"; fi
+      
+      - name: Remove old server images
+        run: if [ ! -z "$(doctl registry repository list | grep askrs-archives-server)" ]; then doctl registry repository delete-manifest askrs-archives-server $(doctl registry repository list-tags askrs-archives-server | grep -o "sha.*") --force; else echo "No repository server"; fi
+      
+      - name: Tag client image with fully qualified destination path
+        run: docker tag askrs-archives-client:staging ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-client:staging
+      
+      - name: Tag server image with fully qualified destination path
+        run: docker tag askrs-archives-server:staging ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-server:staging
+      
+      - name: Push client image to registry
+        run: docker push ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-client:staging
+      
+      - name: Push server image to registry
+        run: docker push ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-server:staging
