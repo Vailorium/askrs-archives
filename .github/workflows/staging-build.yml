@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo
@@ -19,7 +19,8 @@ jobs:
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          token: |
+            "${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
 
       - name: Login to Doctl
         run: doctl registry login
@@ -31,13 +32,13 @@ jobs:
         run: if [ ! -z "$(doctl registry repository list | grep askrs-archives-server)" ]; then doctl registry repository delete-manifest askrs-archives-server $(doctl registry repository list-tags askrs-archives-server | grep -o "sha.*") --force; else echo "No repository server"; fi
       
       - name: Tag client image with fully qualified destination path
-        run: docker tag askrs-archives-client:staging ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-client:staging
+        run: "docker tag askrs-archives-client:staging ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-client:staging"
       
       - name: Tag server image with fully qualified destination path
-        run: docker tag askrs-archives-server:staging ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-server:staging
+        run: "docker tag askrs-archives-server:staging ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-server:staging"
       
       - name: Push client image to registry
-        run: docker push ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-client:staging
+        run: "docker push ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-client:staging"
       
       - name: Push server image to registry
-        run: docker push ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-server:staging
+        run: "docker push ${{ vars.CONTAINER_REGISTRY_URL }}/askrs-archives-server:staging"
