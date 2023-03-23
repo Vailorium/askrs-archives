@@ -35,10 +35,10 @@ services:
       - server
     ports:
       - "3000:3000"
-    environment: |
-      NODE_ENV=production
-      "REACT_APP_CDN_URL = ${{ secrets.REACT_APP_CDN_URL }}"
-      "REACT_APP_API_URL = ${{ secrets.REACT_APP_API_URL }}"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_CDN_URL = $${{ secrets.REACT_APP_CDN_URL }}
+      - REACT_APP_API_URL = $${{ secrets.REACT_APP_API_URL }}
     networks:
       - app-network
     deploy:
