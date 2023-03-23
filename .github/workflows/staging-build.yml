@@ -5,13 +5,9 @@ on:
   #   branches: [ main ]
 
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Image version'
-        required: true
 
 jobs:
-  build_and_push:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repo

@@ -32,7 +32,8 @@
     "./__tests__/**/*",
     "./dist/**/*",
     "./src/__tests__/**/*",
-    "./src/models/**/*"
+    "./src/models/**/*",
+    "./__mocks__/**/*"
   ],
   "include": [
     "./src/**/*"

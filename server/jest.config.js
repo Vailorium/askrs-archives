@@ -6,10 +6,15 @@ const config = {
   verbose: true,
   "testEnvironment": "node",
   "coveragePathIgnorePatterns": [
-    "/node_modules/"
+    "/node_modules/",
+    "dist"
   ],
   "testPathIgnorePatterns": [
     "dist"
-  ]
+  ],
+  "moduleDirectories": [
+    "__mocks__",
+    "node_modules",
+  ],
 };
 module.exports = config;
