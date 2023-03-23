@@ -43,7 +43,7 @@ function HeroOfTheDay(props: HeroOfTheDayProps) {
     <Card>
       <Card.Header>
         <h3>
-          Hero of the Day -
+          (TEMP TEST) Hero of the Day -
           &nbsp;
           {
             data
