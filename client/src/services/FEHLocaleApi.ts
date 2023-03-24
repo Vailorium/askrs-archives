@@ -6,14 +6,12 @@ import { Dictionary } from '../models';
 export const FEHLocaleAPI = createApi({
   reducerPath: 'FEHLocaleAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL,
-    prepareHeaders: (headers) => {
-      headers.set('Cache-Control', 'no-cache, max-age=2628000');
-    },
+    baseUrl: process.env.REACT_APP_CDN_URL,
+    mode: 'cors',
   }),
   endpoints: (builder) => ({
     getLocaleData: builder.query<Dictionary<string | null>, string>({
-      query: (localeID) => `api/locale/${localeID}`,
+      query: (localeID) => `data/locales/locale_${localeID}.json`,
     }),
   }),
 });

@@ -19,7 +19,7 @@ import HeroName from '../../common/Hero/HeroName';
 import HeroTitle from '../../common/Hero/HeroTitle';
 import HeroIcon from '../../common/Hero/HeroIcon';
 
-const ascendedFloret = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/floret.webp`;
+const ascendedFloret = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/floret.webp`;
 const rarityOptions = [
   { value: 3, label: '3★' },
   { value: 4, label: '4★' },

@@ -15,15 +15,45 @@ import BuildSkills from './Components/BuildSkills';
 
 import config from '../../config';
 import UnitBuild from '../common/UnitBuild/UnitBuild';
-import { useGetGameDataQuery } from '../../services/FEHDataApi';
+import {
+  useFetchHeroListQuery,
+  useFetchResplendentListQuery,
+  useFetchSealListQuery,
+  useFetchSkillListQuery,
+} from '../../services/FEHDataApi';
 import { useGetLocaleDataQuery } from '../../services/FEHLocaleApi';
 
 function UnitBuilder() {
   const {
-    data: gameData,
-    error: gameDataError,
-    isLoading: isGameDataLoading,
-  } = useGetGameDataQuery(null);
+    data: heroList,
+    error: heroListError,
+    isLoading: isHeroListLoading,
+  } = useFetchHeroListQuery();
+
+  const {
+    data: skillList,
+    error: skillListError,
+    isLoading: isSkillListLoading,
+  } = useFetchSkillListQuery();
+
+  const {
+    data: resplendentList,
+    error: resplendentListError,
+    isLoading: isResplendentListLoading,
+  } = useFetchResplendentListQuery();
+
+  const {
+    data: sealList,
+    error: sealListError,
+    isLoading: isSealListLoading,
+  } = useFetchSealListQuery();
+
+  const gameDataError = heroListError || skillListError
+    || resplendentListError || sealListError;
+  const isGameDataLoading = isHeroListLoading || isSkillListLoading
+    || isResplendentListLoading || isSealListLoading;
+
+  const isGameDataLoaded = heroList && skillList && resplendentList && sealList;
 
   const {
     data: localeData,
@@ -62,27 +92,33 @@ function UnitBuilder() {
                   gameDataError || localeDataError ? (
                     // eslint-disable-next-line react/jsx-one-expression-per-line
                     <div>
-                      <p>Game Data: {(gameDataError as FetchBaseQueryError).status}</p>
+                      <p>Hero Data: {(heroListError as FetchBaseQueryError).status}</p>
+                      <p>Resplendent Data: {
+                        (resplendentListError as FetchBaseQueryError).status
+                      }
+                      </p>
+                      <p>Skill Data: {(skillListError as FetchBaseQueryError).status}</p>
+                      <p>Seal Data: {(sealListError as FetchBaseQueryError).status}</p>
                       <p>Locale Data: {(localeDataError as FetchBaseQueryError).status}</p>
                     </div>
                   ) : isGameDataLoading || isLocaleDataLoading ? (
                     <Spinner animation="border" role="status" variant="primary">
                       <span className="visually-hidden">Loading...</span>
                     </Spinner>
-                  ) : gameData && localeData ? (
+                  ) : isGameDataLoaded && localeData ? (
                     <>
                       <BuildOptions
-                        heroList={gameData.heroList}
+                        heroList={heroList}
                         values={values}
-                        resplendentList={gameData.resplendentList}
+                        resplendentList={resplendentList}
                         setFieldValue={setFieldValue}
                         localeData={localeData}
                       />
                       <hr />
                       <BuildSkills
-                        skillList={gameData.skillList}
+                        skillList={skillList}
                         values={values}
-                        sealList={gameData.sealList}
+                        sealList={sealList}
                         setFieldValue={setFieldValue}
                         localeData={localeData}
                       />

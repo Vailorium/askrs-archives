@@ -11,7 +11,7 @@ class Article extends React.Component<ArticleProps, { image?: string }> {
   constructor(props: ArticleProps) {
     super(props);
     const { article } = this.props;
-    this.state = { image: `${process.env.REACT_APP_CDN_URL}/articles/${article.img}` };
+    this.state = { image: `${process.env.REACT_APP_CDN_URL}/assets/articles/${article.img}` };
   }
 
   render() {

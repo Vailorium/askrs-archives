@@ -17,7 +17,7 @@ class BackgroundLayer extends React.Component<LayerProps> {
     const { supportLevel } = this.props;
     const source = supportLevel === 0 ? 'bg_no_support.png' : 'bg_support.png';
     // eslint-disable-next-line global-require
-    const imageSrc = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/${source}`;
+    const imageSrc = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/${source}`;
     return (
       <>
         <div
@@ -35,7 +35,7 @@ class BackgroundLayer extends React.Component<LayerProps> {
         <div
           role="img"
           style={{
-            backgroundImage: `url('${process.env.REACT_APP_CDN_URL}/UI/unit-builder/fg.png')`,
+            backgroundImage: `url('${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/fg.png')`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'contain',
             position: 'absolute',

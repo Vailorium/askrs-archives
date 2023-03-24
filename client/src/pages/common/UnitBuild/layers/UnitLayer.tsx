@@ -14,7 +14,7 @@ class UnitLayer extends React.Component<LayerProps> {
   render() {
     const { imageSrc } = this.props;
     // eslint-disable-next-line global-require
-    const image = `${process.env.REACT_APP_CDN_URL}/Face/${imageSrc}/Face.webp`;
+    const image = `${process.env.REACT_APP_CDN_URL}/assets/Face/${imageSrc}/Face.webp`;
     return (
       <div
         role="img"

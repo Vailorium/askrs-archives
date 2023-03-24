@@ -10,7 +10,7 @@ interface LayerProps {
 
 function NamePanelLayer(props: LayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rarityImg = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/rarity.png`;
+  const rarityImg = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/rarity.png`;
   const { idTag, rarity, localeData } = props;
   const draw = async () => {
     const name = localeData[`M${idTag}`];

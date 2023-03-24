@@ -27,7 +27,7 @@ function ExtraIconsLayer(props: ExtraIconsLayerProps) {
         const { blessing, legendary, IVS } = props;
         if (legendary && legendary.kind === Kind.blessed) {
           // print legendary
-          let legendaryIcon = `${process.env.REACT_APP_CDN_URL}/UI/blessing/Icon_Legend${HeroData.getLegendaryElementString(legendary)}`;
+          let legendaryIcon = `${process.env.REACT_APP_CDN_URL}/assets/UI/blessing/Icon_Legend${HeroData.getLegendaryElementString(legendary)}`;
 
           if (legendary.bonus_effect.atk > 0) {
             legendaryIcon += 'Atk';

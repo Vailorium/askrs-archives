@@ -15,7 +15,7 @@ import UnitBuilder from './UnitBuilder/UnitBuilder';
 
 function App() {
   useEffect(() => {
-    const font = new FontFace('Fire_Emblem_Heroes_Font', `url('${process.env.REACT_APP_CDN_URL}/fonts/Fire_Emblem_Heroes_Font.woff')`);
+    const font = new FontFace('Fire_Emblem_Heroes_Font', `url('${process.env.REACT_APP_CDN_URL}/assets/fonts/Fire_Emblem_Heroes_Font.woff')`);
 
     font.load().then(() => {
       document.fonts.add(font);
@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="main" style={{ background: `url(${process.env.REACT_APP_CDN_URL}/UI/background.jpg)` }}>
+      <div className="main" style={{ background: `url(${process.env.REACT_APP_CDN_URL}/assets/UI/background.jpg)` }}>
         <BrowserRouter>
           <Switch>
             <Route exact path="/unit-builder">

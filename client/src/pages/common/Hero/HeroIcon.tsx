@@ -17,7 +17,7 @@ function HeroIcon(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg',
   }
 
   // eslint-disable-next-line global-require
-  const imageSrc = `${process.env.REACT_APP_CDN_URL}/Face/${imageHero}/Face_FC.webp`;
+  const imageSrc = `${process.env.REACT_APP_CDN_URL}/assets/Face/${imageHero}/Face_FC.webp`;
   return (
     <OverlayTrigger
       placement="bottom"

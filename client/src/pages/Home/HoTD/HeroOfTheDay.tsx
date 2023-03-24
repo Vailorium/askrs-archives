@@ -1,9 +1,10 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Chance } from 'chance';
 import {
   Card, Spinner, ButtonGroup, ToggleButton, Accordion,
 } from 'react-bootstrap';
-import { useGetGameDataQuery } from '../../../services/FEHDataApi';
+import { useFetchHeroListQuery } from '../../../services/FEHDataApi';
 import HeroDescription from '../../common/Hero/HeroDescription';
 import HeroFull from '../../common/Hero/HeroFull';
 import HeroName from '../../common/Hero/HeroName';
@@ -29,13 +30,19 @@ const portraitTypes = [
   },
 ];
 
-interface HeroOfTheDayProps {
-  dailyHeroID: number;
-}
+function HeroOfTheDay() {
+  const { data, error, isLoading } = useFetchHeroListQuery();
+  const [dailyHeroID, setDailyHeroID] = useState(-1);
 
-function HeroOfTheDay(props: HeroOfTheDayProps) {
-  const { data, error, isLoading } = useGetGameDataQuery(null);
-  const { dailyHeroID } = props;
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const daysSinceEpoch = Math.floor(Date.now() / 8.64e7);
+      const seededRNG = new Chance(daysSinceEpoch);
+      const heroID = Math.abs(seededRNG.integer()) % data.length;
+
+      setDailyHeroID(heroID);
+    }
+  }, [data]);
 
   const [portraitType, setPortraitType] = useState('default');
 
@@ -43,11 +50,11 @@ function HeroOfTheDay(props: HeroOfTheDayProps) {
     <Card>
       <Card.Header>
         <h3>
-          (TEMP TEST) Hero of the Day -
+          Hero of the Day -
           &nbsp;
           {
-            data
-              && (<><HeroName hero={data.heroList[dailyHeroID]} locale="USEN" />: <HeroTitle hero={data.heroList[dailyHeroID]} locale="USEN" /></>)
+            data && dailyHeroID > -1
+              && (<><HeroName hero={data[dailyHeroID]} locale="USEN" />: <HeroTitle hero={data[dailyHeroID]} locale="USEN" /></>)
           }
           !
         </h3>
@@ -63,7 +70,7 @@ function HeroOfTheDay(props: HeroOfTheDayProps) {
           ) : data && dailyHeroID > -1 ? (
             <>
               <div className="w-100 d-flex justify-content-center flex-wrap">
-                <HeroFull hero={data.heroList[dailyHeroID]} size="xs" isResplendent={false} fullType={portraitType as any} />
+                <HeroFull hero={data[dailyHeroID]} size="xs" isResplendent={false} fullType={portraitType as any} />
                 <ButtonGroup className="my-2">
                   {
                     portraitTypes.map((por) => (
@@ -85,12 +92,12 @@ function HeroOfTheDay(props: HeroOfTheDayProps) {
               </div>
               <hr />
               <h4>Description</h4>
-              <HeroDescription hero={data.heroList[dailyHeroID]} locale="USEN" />
+              <HeroDescription hero={data[dailyHeroID]} locale="USEN" />
               <hr />
               <h4>Skills</h4>
               <Accordion defaultActiveKey="4">
                 {
-                  data.heroList[dailyHeroID].skills.map(
+                  data[dailyHeroID].skills.map(
                     (skillList, i) => (
                       <Accordion.Item eventKey={i.toString()}>
                         <Accordion.Header>{i + 1}★</Accordion.Header>

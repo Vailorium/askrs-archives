@@ -6,16 +6,28 @@ import { HeroDataModel, SkillDataModel } from '../models';
 export const FEHDataAPI = createApi({
   reducerPath: 'FEHDataAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_URL,
-    prepareHeaders: (headers) => {
-      headers.set('Cache-Control', 'no-cache, max-age=2628000');
-    },
+    baseUrl: process.env.REACT_APP_CDN_URL,
+    mode: 'cors',
   }),
   endpoints: (builder) => ({
-    getGameData: builder.query<{ heroList: HeroDataModel[], skillList: SkillDataModel[], resplendentList: string[], sealList: string[] }, null>({
-      query: () => 'api/data',
+    fetchHeroList: builder.query<HeroDataModel[], void>({
+      query: () => 'data/heroes/hero_list.json',
+    }),
+
+    fetchResplendentList: builder.query<string[], void>({
+      query: () => 'data/heroes/resplendent_list.json',
+    }),
+
+    fetchSkillList: builder.query<SkillDataModel[], void>({
+      query: () => 'data/skills/skill_list.json',
+    }),
+
+    fetchSealList: builder.query<string[], void>({
+      query: () => 'data/skills/seal_list.json',
     }),
   }),
 });
 
-export const { useGetGameDataQuery } = FEHDataAPI;
+export const {
+  useFetchHeroListQuery, useFetchResplendentListQuery, useFetchSkillListQuery, useFetchSealListQuery,
+} = FEHDataAPI;

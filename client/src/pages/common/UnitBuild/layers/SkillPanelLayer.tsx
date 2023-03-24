@@ -63,7 +63,7 @@ function SkillPanelLayer(props: LayerProps) {
             const iconY = Math.floor(iconIdOnSheet / config.SPRITESHEET_WIDTH);
 
             // eslint-disable-next-line global-require
-            const image = `${process.env.REACT_APP_CDN_URL}/skills/Skill_Passive${sheet}.webp`;
+            const image = `${process.env.REACT_APP_CDN_URL}/assets/skills/Skill_Passive${sheet}.webp`;
             const img: HTMLImageElement = await CanvasHelper.loadImage(image);
             ctx.drawImage(
               img,

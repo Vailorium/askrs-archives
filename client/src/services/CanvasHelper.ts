@@ -1,4 +1,4 @@
-const FE_HEROES_FONT = `${process.env.REACT_APP_CDN_URL}/fonts/Fire_Emblem_Heroes_Font.woff`;
+const FE_HEROES_FONT = `${process.env.REACT_APP_CDN_URL}/assets/fonts/Fire_Emblem_Heroes_Font.woff`;
 
 const CanvasHelper = {
   FEHFont: new FontFace('Fire_Emblem_Heroes_Font', `url(${FE_HEROES_FONT})`),

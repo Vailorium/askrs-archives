@@ -34,7 +34,7 @@ function HeroFull(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg' 
       break;
   }
 
-  const imageSrc = `${process.env.REACT_APP_CDN_URL}/Face/${imageHero}/${imageType}`;
+  const imageSrc = `${process.env.REACT_APP_CDN_URL}/assets/Face/${imageHero}/${imageType}`;
   if (size !== 'auto') {
     return (
       <div

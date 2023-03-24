@@ -10,10 +10,10 @@ function ForegroundLayer(props: { unit: HeroBuildInfoModel }) {
   const { unit } = props;
   const { hero, build } = unit;
 
-  const spritesheet = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/spritesheet.png`;
-  const levelpanel = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/level_panel.png`;
-  const dragonflowers = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/dragonflowers.png`;
-  const blessings = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/blessings.png`;
+  const spritesheet = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/spritesheet.png`;
+  const levelpanel = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/level_panel.png`;
+  const dragonflowers = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/dragonflowers.png`;
+  const blessings = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/blessings.png`;
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const draw = async () => {

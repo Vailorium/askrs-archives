@@ -17,7 +17,7 @@ function SkillSprite(props: { skill: SkillDataModel, size: 'xs' | 'sm' | 'md' | 
   const iconY = Math.floor(iconIdOnSheet / config.SPRITESHEET_WIDTH);
 
   // eslint-disable-next-line global-require
-  const imageSrc = `${process.env.REACT_APP_CDN_URL}/skills/Skill_Passive${sheet}.webp`;
+  const imageSrc = `${process.env.REACT_APP_CDN_URL}/assets/skills/Skill_Passive${sheet}.webp`;
   return (
     <OverlayTrigger
       placement="bottom"

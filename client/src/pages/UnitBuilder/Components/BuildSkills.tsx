@@ -23,14 +23,14 @@ interface BuildSkillsProps {
   localeData: Dictionary<string | null>;
 }
 
-const genericWeapon = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/generic_weapon.png`;
-const genericRefine = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/refine.png`;
-const genericAssist = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/generic_assist.png`;
-const genericSpecial = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/generic_special.png`;
-const a = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/a.png`;
-const b = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/b.png`;
-const c = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/c.png`;
-const s = `${process.env.REACT_APP_CDN_URL}/UI/unit-builder/s.png`;
+const genericWeapon = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/generic_weapon.png`;
+const genericRefine = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/refine.png`;
+const genericAssist = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/generic_assist.png`;
+const genericSpecial = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/generic_special.png`;
+const a = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/a.png`;
+const b = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/b.png`;
+const c = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/c.png`;
+const s = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/s.png`;
 
 function BuildSkills(props: BuildSkillsProps) {
   const {
