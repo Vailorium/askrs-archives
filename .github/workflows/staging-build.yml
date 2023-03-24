@@ -15,6 +15,9 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Build container images
+        env:
+          REACT_APP_CDN_URL: ${{ secrets.REACT_APP_CDN_URL }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
         run: docker compose -f docker-compose.staging.yml build
 
       - name: Install doctl
