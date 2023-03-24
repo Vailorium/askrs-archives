@@ -24,6 +24,9 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.staging
+      args:
+        - REACT_APP_CDN_URL=${REACT_APP_CDN_URL}
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
     image: askrs-archives-client:staging
     container_name: askrs-archives-client
     command: "serve -s build -l 3000"
@@ -33,8 +36,8 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - REACT_APP_CDN_URL = ${REACT_APP_CDN_URL}
-      - REACT_APP_API_URL = ${REACT_APP_API_URL}
+      - REACT_APP_CDN_URL=${REACT_APP_CDN_URL}
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
     networks:
       - app-network
     deploy:
