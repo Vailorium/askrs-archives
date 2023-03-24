@@ -3,13 +3,11 @@ version: '3.9'
 services:
   server:
     build:
-      context: ./
-      dockerfile: ./server/Dockerfile.staging
+      context: ./server
+      dockerfile: Dockerfile.staging
     image: askrs-archives-server:staging
     container_name: askrs-archives-server
     command: npm run start
-    volumes:
-      - /usr/src/app/node_modules
     ports:
       - "8080:8080"
     environment:
@@ -29,8 +27,6 @@ services:
     image: askrs-archives-client:staging
     container_name: askrs-archives-client
     command: "serve -s build -l 3000"
-    volumes:
-      - /usr/src/app/node_modules
     depends_on:
       - server
     ports:
@@ -52,7 +48,5 @@ networks:
     driver: bridge
 
 volumes:
-    data-volume:
-    node_modules:
     web-root:
       driver: local
