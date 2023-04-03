@@ -74,10 +74,7 @@ const SelectField = ({
     {
     isInvalid
     && (
-    <div style={{
-      width: '100%', marginTop: '.25rem', fontSize: '.875rem', color: '#dc3545',
-    }}
-    >
+    <div className="custom-error-message-bootstrap">
       {errorMessage}
     </div>
     )

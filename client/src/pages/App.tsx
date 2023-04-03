@@ -9,11 +9,13 @@ import {
 } from 'react-router-dom';
 import Home from './Home/Home';
 import Footer from './common/Footer';
-import Header from './common/Header';
+import Header from './common/Header/Header';
 
 import UnitBuilder from './UnitBuilder/UnitBuilder';
+import api from '../api/api';
+import AuthService from '../services/AuthService';
 
-function App() {
+const App: React.FC = () => {
   useEffect(() => {
     const font = new FontFace('Fire_Emblem_Heroes_Font', `url('${process.env.REACT_APP_CDN_URL}/assets/fonts/Fire_Emblem_Heroes_Font.woff')`);
 
@@ -22,11 +24,19 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    // ping to set up CSRF and ensure server is online, then load user profile
+    api.ping()
+      .then(() => {
+        AuthService.loadUserProfile();
+      });
+  }, []);
+
   return (
-    <>
-      <Header />
-      <div className="main" style={{ background: `url(${process.env.REACT_APP_CDN_URL}/assets/UI/background.jpg)` }}>
-        <BrowserRouter>
+    <BrowserRouter>
+      <>
+        <Header />
+        <div className="main" style={{ background: `url(${process.env.REACT_APP_CDN_URL}/assets/UI/background.jpg)` }}>
           <Switch>
             <Route exact path="/unit-builder">
               <UnitBuilder />
@@ -35,11 +45,10 @@ function App() {
               <Home />
             </Route>
           </Switch>
-        </BrowserRouter>
-      </div>
-      <Footer />
-    </>
+        </div>
+        <Footer />
+      </>
+    </BrowserRouter>
   );
-}
-
+};
 export default App;

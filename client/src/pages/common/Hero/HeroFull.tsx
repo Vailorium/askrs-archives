@@ -1,7 +1,6 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import { HeroDataModel } from '../../../models';
-import config from '../../../config';
 
 function HeroFull(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg' | 'auto', isResplendent: boolean, fullType: 'default' | 'attack' | 'special' | 'damaged' }) {
   const {
@@ -35,27 +34,22 @@ function HeroFull(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg' 
   }
 
   const imageSrc = `${process.env.REACT_APP_CDN_URL}/assets/Face/${imageHero}/${imageType}`;
-  if (size !== 'auto') {
-    return (
-      <div
-        role="img"
-        style={{
-          color: 'white',
-          backgroundImage: `url('${imageSrc}')`,
-          backgroundSize: `${config.FULL_WIDTH[size]}px ${config.FULL_HEIGHT[size]}px`,
-          height: `${config.FULL_HEIGHT[size]}px`,
-          width: `${config.FULL_WIDTH[size]}px`,
-        }}
-      />
-    );
-  }
+  // if (size !== 'auto') {
+  //   return (
+  //     <div
+  //       role="img"
+  //       className={`hero-full hero-full-${size}`}
+  //       style={{
+  //         backgroundImage: `url('${imageSrc}')`,
+  //       }}
+  //     />
+  //   );
+  // }
   return (
     <img
       src={imageSrc}
       alt={`${hero.name} ${hero.title} ${fullType} pose`}
-      style={{
-        width: '100%',
-      }}
+      className={`hero-full hero-full-${size}`}
     />
   );
 }

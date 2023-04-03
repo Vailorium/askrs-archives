@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "down": "docker compose down",
+    "down": "docker compose -f docker-compose.dev.yml down",
     "lint": "cd server && npm run lint && cd ../client && npm run lint",
     "install-packages": "npm i && cd server && npm i && cd ../client && npm i",
     "test": "cd server && npm run test && cd ../client && npm run test",
-    "up": "npm run lint && docker-compose up -d --build"
+    "up": "npm run lint && docker-compose -f docker-compose.dev.yml up -d --build"
   },
   "repository": {
     "type": "git",

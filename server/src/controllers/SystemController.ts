@@ -15,8 +15,8 @@ class SystemController implements Controller {
   }
 
   // eslint-disable-next-line max-len
-  private ping = async (req: Request, res: Response<string>) => {
-    res.status(200).send('Pong!');
+  private ping = async (req: Request, res: Response<{ message: string }>) => {
+    res.status(200).send({ message: 'Pong!' });
   };
 }
 export default SystemController;
