@@ -11,6 +11,6 @@ const request = supertest(app);
 
 test('Test ping endpoint', async () => {
   const res = await request.get('/ping');
-  expect(res.text).toEqual('Pong!');
+  expect(JSON.parse(res.text)).toStrictEqual({ message: 'Pong!' });
 });
 export {};

@@ -31,3 +31,66 @@
 	height: 42px;
 	width: 42px;
 }
+
+.loading-screen {
+	position: absolute;
+	background-color: #1616163f;
+	height: 100%;
+	width: 100%;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.loading-screen-rounded {
+	border-radius: var(--bs-modal-border-radius);
+}
+//
+// Header
+//
+
+.greeting-dropdown {
+	border: none;
+	background-color: transparent;
+}
+
+
+//
+// Select Field
+//
+.custom-error-message-bootstrap {
+	width: 100%;
+	margin-top: .25rem;
+	font-size: .875rem;
+	color: #DC3545;
+}
+
+//
+// Hero Full
+//
+.hero-full {
+	color: white;
+}
+.hero-full-xs {
+	background-size: 421px 480px;
+	height: 480px;
+	width: 421px;
+}
+.hero-full-sm {
+	background-size: 842px 960px;
+	height: 960px;
+	width: 842px;
+}
+.hero-full-md {
+	background-size: 1263px 1440px;
+	height: 1440px;
+	width: 1263px;
+}
+.hero-full-lg {
+	background-size: 1684px 1920px;
+	height: 1920px;
+	width: 1684px;
+}

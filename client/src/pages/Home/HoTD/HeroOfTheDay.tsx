@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chance } from 'chance';
 import {
-  Card, Spinner, ButtonGroup, ToggleButton, Accordion,
+  Card, Spinner, ButtonGroup, ToggleButton, Accordion, Placeholder,
 } from 'react-bootstrap';
 import { useFetchHeroListQuery } from '../../../services/FEHDataApi';
 import HeroDescription from '../../common/Hero/HeroDescription';
@@ -65,7 +65,8 @@ function HeroOfTheDay() {
             <>Hero Data failed to Load!</>
           ) : isLoading || dailyHeroID === -1 ? (
             <Spinner animation="border" role="status" variant="primary">
-              <span className="visually-hidden">Loading...</span>
+              {/* <span className="visually-hidden">Loading...</span> */}
+              <Placeholder xs={8} />
             </Spinner>
           ) : data && dailyHeroID > -1 ? (
             <>
@@ -99,14 +100,14 @@ function HeroOfTheDay() {
                 {
                   data[dailyHeroID].skills.map(
                     (skillList, i) => (
-                      <Accordion.Item eventKey={i.toString()}>
+                      <Accordion.Item eventKey={i.toString()} key={`skill-level-${i + 1}`}>
                         <Accordion.Header>{i + 1}★</Accordion.Header>
                         <Accordion.Body>
                           {
                             skillList.map(
                               (skill) => (
                                 skill === null ? null
-                                  : (<div><SkillName key={skill} skill={skill} locale="USEN" /><br /></div>)
+                                  : (<div key={skill}><SkillName skill={skill} locale="USEN" /><br /></div>)
                               ),
                             )
                           }
