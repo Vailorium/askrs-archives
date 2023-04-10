@@ -6,7 +6,9 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 
-import { Field } from 'formik';
+import {
+  Field, FormikErrors, FormikTouched, getIn,
+} from 'formik';
 
 import { SkillDataModel } from '../../../models';
 import { SkillCategory } from '../../../enums';
@@ -18,6 +20,8 @@ import SkillSprite from '../../common/Skill/SkillSprite';
 interface BuildSkillsProps {
   skillList: SkillDataModel[];
   values: UnitBuildValuesModel;
+  errors: FormikErrors<UnitBuildValuesModel>,
+  touched: FormikTouched<UnitBuildValuesModel>,
   sealList: string[];
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
   localeData: Record<string, string>;
@@ -34,7 +38,13 @@ const s = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/s.png`;
 
 const BuildSkills = memo((props: BuildSkillsProps) => {
   const {
-    skillList, values, sealList, localeData, setFieldValue,
+    skillList,
+    values,
+    errors,
+    touched,
+    sealList,
+    localeData,
+    setFieldValue,
   } = props;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -166,6 +176,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.weapon"
                 component={SelectField}
                 options={options[SkillCategory.Weapon]}
+                isValid={getIn(touched, 'build.skills.weapon') && !getIn(errors, 'build.skills.weapon')}
+                isInvalid={!!getIn(errors, 'build.skills.weapon')}
+                errorMessage={getIn(errors, 'build.skills.weapon')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators
@@ -181,6 +194,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                     name="build.skills.refine"
                     component={SelectField}
                     options={refineOptions}
+                    isValid={getIn(touched, 'build.skills.refine') && !getIn(errors, 'build.skills.refine')}
+                    isInvalid={!!getIn(errors, 'build.skills.refine')}
+                    errorMessage={getIn(errors, 'build.skills.refine')}
                     isDisabled={!values.hero.id_tag}
                     virtual
                     visualIndicators
@@ -196,6 +212,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.assist"
                 component={SelectField}
                 options={options[SkillCategory.Assist]}
+                isValid={getIn(touched, 'build.skills.assist') && !getIn(errors, 'build.skills.assist')}
+                isInvalid={!!getIn(errors, 'build.skills.assist')}
+                errorMessage={getIn(errors, 'build.skills.assist')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators
@@ -209,6 +228,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.special"
                 component={SelectField}
                 options={options[SkillCategory.Special]}
+                isValid={getIn(touched, 'build.skills.special') && !getIn(errors, 'build.skills.special')}
+                isInvalid={!!getIn(errors, 'build.skills.special')}
+                errorMessage={getIn(errors, 'build.skills.special')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators
@@ -222,6 +244,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.a"
                 component={SelectField}
                 options={options[SkillCategory.A]}
+                isValid={getIn(touched, 'build.skills.a') && !getIn(errors, 'build.skills.a')}
+                isInvalid={!!getIn(errors, 'build.skills.a')}
+                errorMessage={getIn(errors, 'build.skills.a')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators
@@ -235,6 +260,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.b"
                 component={SelectField}
                 options={options[SkillCategory.B]}
+                isValid={getIn(touched, 'build.skills.b') && !getIn(errors, 'build.skills.b')}
+                isInvalid={!!getIn(errors, 'build.skills.b')}
+                errorMessage={getIn(errors, 'build.skills.b')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators
@@ -248,6 +276,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.c"
                 component={SelectField}
                 options={options[SkillCategory.C]}
+                isValid={getIn(touched, 'build.skills.c') && !getIn(errors, 'build.skills.c')}
+                isInvalid={!!getIn(errors, 'build.skills.c')}
+                errorMessage={getIn(errors, 'build.skills.c')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators
@@ -261,6 +292,9 @@ const BuildSkills = memo((props: BuildSkillsProps) => {
                 name="build.skills.s"
                 component={SelectField}
                 options={options[SkillCategory.S]}
+                isValid={getIn(touched, 'build.skills.s') && !getIn(errors, 'build.skills.s')}
+                isInvalid={!!getIn(errors, 'build.skills.s')}
+                errorMessage={getIn(errors, 'build.skills.s')}
                 isDisabled={!values.hero.id_tag}
                 virtual
                 visualIndicators

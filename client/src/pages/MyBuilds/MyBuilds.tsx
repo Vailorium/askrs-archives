@@ -10,7 +10,6 @@ import { useGetUserProfileQuery } from '../../services/UserProfileApi';
 
 const MyBuilds: React.FC = () => {
   const { data, isLoading } = useGetUserProfileQuery();
-  console.log('re');
 
   if (data && !data.username && !isLoading) {
     return (
@@ -47,9 +46,12 @@ const MyBuilds: React.FC = () => {
             <tr>
               <th>{' '}</th>
               <th>Hero</th>
+              <th>Build Name</th>
               <th>Merges</th>
               <th>Dragonflowers</th>
               <th>Skills</th>
+              <th>Created</th>
+              <th>Last Updated</th>
               <th>Actions</th>
             </tr>
           </thead>

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import CardGroup from 'react-bootstrap/CardGroup';
 import randomstring from 'randomstring';
@@ -9,12 +10,13 @@ import { Formik } from 'formik';
 import config from '../../config';
 import IHeroBuild from '../../interfaces/IHeroBuild';
 import api from '../../api/api';
-import { HeroBuildInfoModel, HeroDataModel, SkillDataModel } from '../../models';
+import { HeroDataModel, SkillDataModel } from '../../models';
 import UnitBuildValuesModel from '../../models/UnitBuild/UnitBuildValuesModel';
 import UnitBuilderEditor from './UnitBuilderEditor';
+import unitBuilderFormSchema from '../../lib/UnitBuilderFormSchema';
 
 interface UnitBuilderContainerProps {
-  build: HeroBuildInfoModel | null;
+  build: UnitBuildValuesModel | null;
   heroList: HeroDataModel[];
   skillList: SkillDataModel[];
   resplendentList: string[];
@@ -27,14 +29,13 @@ React.FC<UnitBuilderContainerProps> = (props: UnitBuilderContainerProps) => {
     build, heroList, skillList, resplendentList, sealList, localeData,
   } = props;
 
+  const [buildName, setBuildName] = useState(build ? build.buildName : '');
+
   let initialValues: UnitBuildValuesModel;
 
   if (build) {
     initialValues = {
-      maxSkills: true,
-      resplendentCostume: false,
       id: randomstring.generate(),
-      buildName: '',
       ...build,
     };
   } else {
@@ -50,10 +51,12 @@ React.FC<UnitBuilderContainerProps> = (props: UnitBuilderContainerProps) => {
   return (
     <Formik
       initialValues={initialValues}
+      validationSchema={unitBuilderFormSchema}
       onSubmit={(values) => {
         // Convert form data to correct format for server
         const submitBuild: IHeroBuild = {
-          uid: '',
+          uid: values.uid ? values.uid : '',
+          buildName,
           heroIdNum: values.hero.id_num,
           rarity: values.build.rarity,
           merges: values.build.merges,
@@ -75,9 +78,16 @@ React.FC<UnitBuilderContainerProps> = (props: UnitBuilderContainerProps) => {
           allySupportLevel: values.build.allySupport.level,
           allySupportTarget: values.build.allySupport.targetIdNum,
         };
-        api.createBuild(submitBuild)
-          .then((res) => console.log('creating build success!', res))
-          .catch((err) => console.log(err));
+
+        if (values.id && values.uid) {
+          api.updateBuild(values.id, submitBuild)
+            .then((res) => console.log('successfully updated build!', res))
+            .catch((err) => console.error(err));
+        } else {
+          api.createBuild(submitBuild)
+            .then((res) => console.log('creating build success!', res))
+            .catch((err) => console.log(err));
+        }
       }}
     >
       {({
@@ -85,6 +95,9 @@ React.FC<UnitBuilderContainerProps> = (props: UnitBuilderContainerProps) => {
         setFieldValue,
         handleSubmit,
         handleChange,
+        setFieldError,
+        errors,
+        touched,
       }) => (
         <CardGroup
           as={Container}
@@ -96,7 +109,10 @@ React.FC<UnitBuilderContainerProps> = (props: UnitBuilderContainerProps) => {
           }}
         >
           <UnitBuilderEditor
+            errors={errors}
+            touched={touched}
             values={values}
+            setFieldError={setFieldError}
             handleSubmit={handleSubmit}
             setFieldValue={setFieldValue}
             handleChange={handleChange}
@@ -105,6 +121,8 @@ React.FC<UnitBuilderContainerProps> = (props: UnitBuilderContainerProps) => {
             resplendentList={resplendentList}
             sealList={sealList}
             localeData={localeData}
+            buildName={buildName}
+            setBuildName={setBuildName}
           />
         </CardGroup>
       )}

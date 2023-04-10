@@ -162,7 +162,8 @@ const HeroData = {
       resplendentCostume: !!build.resplendent,
       // eslint-disable-next-line no-underscore-dangle
       id: build._id ? build._id : randomstring.generate(),
-      buildName: '', // TODO add
+      buildName: build.buildName ? build.buildName : '',
+      uid: build.uid ? build.uid : undefined,
     };
 
     return unitBuild;

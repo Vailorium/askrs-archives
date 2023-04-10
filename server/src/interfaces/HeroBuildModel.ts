@@ -3,6 +3,7 @@ import IHeroBuild from './IHeroBuild';
 
 const HeroBuildSchema: Schema = new Schema({
   uid: { type: String, required: true, index: true },
+  buildName: { type: String, required: true },
   heroIdNum: { type: Number, required: true, index: true },
   rarity: { type: Number, required: false, default: 0 },
   merges: { type: Number, required: false, default: 0 },

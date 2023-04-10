@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
+import { format } from 'date-fns';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router-dom';
@@ -50,6 +51,9 @@ const MyBuildsHeroRow: React.FC<MyBuildsHeroRowProps> = (props: MyBuildsHeroRowP
           <HeroIcon hero={heroData} size="sm" isResplendent={!!hero.resplendent} />
         </td>
         <td>
+          {hero.buildName ? hero.buildName : ''}
+        </td>
+        <td>
           {hero.merges}
         </td>
         <td>
@@ -94,6 +98,8 @@ const MyBuildsHeroRow: React.FC<MyBuildsHeroRowProps> = (props: MyBuildsHeroRowP
               : null
           }
         </td>
+        <td>{format(new Date(hero.createdAt ? hero.createdAt : 0), 'd/M/yy p')}</td>
+        <td>{format(new Date(hero.updatedAt ? hero.updatedAt : 0), 'd/M/yy p')}</td>
         <td>
           <OverlayTrigger
             overlay={<Tooltip>Edit</Tooltip>}

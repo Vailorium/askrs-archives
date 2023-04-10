@@ -6,7 +6,9 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { Field } from 'formik';
+import {
+  Field, FormikErrors, FormikTouched, getIn,
+} from 'formik';
 import { ButtonGroup } from 'react-bootstrap';
 import { HeroDataModel } from '../../../models';
 import SelectField from '../../common/SelectField';
@@ -45,6 +47,8 @@ const blessingOptions = [
 interface BuildOptionsProps {
   heroList: HeroDataModel[],
   values: UnitBuildValuesModel,
+  errors: FormikErrors<UnitBuildValuesModel>,
+  touched: FormikTouched<UnitBuildValuesModel>,
   resplendentList: string[],
   localeData: Record<string, string>,
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
@@ -52,7 +56,13 @@ interface BuildOptionsProps {
 
 const BuildOptions = memo((props: BuildOptionsProps) => {
   const {
-    heroList, values, resplendentList, setFieldValue, localeData,
+    heroList,
+    values,
+    errors,
+    touched,
+    resplendentList,
+    setFieldValue,
+    localeData,
   } = props;
 
   const flowerOptions = [];
@@ -80,21 +90,10 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
             ),
           });
       }
-      console.error(`Error finding name or title for ${hero.id_tag}`);
       return {
         value: hero,
         label: 'ERROR',
       };
-      // return (
-      //   {
-      //     value: hero,
-      //     label: (
-      //       <div className="d-flex align-items-center">
-      // eslint-disable-next-line max-len
-      //         <div className="me-2"><HeroIcon hero={hero} size="sm" isResplendent={false} /></div><HeroName hero={hero} locale="USEN" />: <HeroTitle hero={hero} locale="USEN" />
-      //       </div>
-      //     ),
-      //   });
     })
     .sort((a, b) => {
       const aName = localeData[`M${a.value.id_tag}`];
@@ -105,8 +104,8 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
       return -1;
     });
 
-  // eslint-disable-next-line max-len
-  // console.log(ReactDOMServer.renderToStaticMarkup(<><HeroName hero={heroList[0]} locale="USEN" />: <HeroTitle hero={heroList[0]} locale="USEN" /></>));
+  console.log(errors);
+
   return (
     <Container style={{ padding: '0px' }}>
       <Row>
@@ -129,6 +128,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                     setFieldValue('build.blessing', Element.none);
                   }
                 }}
+                isValid={getIn(touched, 'hero.id_num') && !getIn(errors, 'hero.id_num')}
+                isInvalid={!!getIn(errors, 'hero.id_num')}
+                errorMessage={getIn(errors, 'hero.id_num')}
                 virtual
                 visualIndicators
               />
@@ -142,6 +144,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 component={SelectField}
                 options={rarityOptions}
                 isDisabled={!values.hero.id_tag}
+                isValid={getIn(touched, 'build.rarity') && !getIn(errors, 'build.rarity')}
+                isInvalid={!!getIn(errors, 'build.rarity')}
+                errorMessage={getIn(errors, 'build.rarity')}
                 visualIndicators
               />
             </Col>
@@ -151,6 +156,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 component={SelectField}
                 options={mergeOptions}
                 isDisabled={!values.hero.id_tag}
+                isValid={getIn(touched, 'build.merges') && !getIn(errors, 'build.merges')}
+                isInvalid={!!getIn(errors, 'build.merges')}
+                errorMessage={getIn(errors, 'build.merges')}
                 onChangeEvent={(e: { label: string, value: number }) => {
                   const { value } = e;
                   if (value > 0 && values.build.ivs.bane !== IVS.neutral) {
@@ -169,6 +177,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 component={SelectField}
                 options={IVOptions}
                 isDisabled={!values.hero.id_tag}
+                isValid={getIn(touched, 'build.ivs.boon') && !getIn(errors, 'build.ivs.boon')}
+                isInvalid={!!getIn(errors, 'build.ivs.boon')}
+                errorMessage={getIn(errors, 'build.ivs.boon')}
                 visualIndicators
               />
             </Col>
@@ -177,6 +188,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 name="build.ivs.bane"
                 component={SelectField}
                 options={IVOptions}
+                isValid={getIn(touched, 'build.ivs.bane') && !getIn(errors, 'build.ivs.bane')}
+                isInvalid={!!getIn(errors, 'build.ivs.bane')}
+                errorMessage={getIn(errors, 'build.ivs.bane')}
                 isDisabled={!values.hero.id_tag || values.build.merges > 0}
                 visualIndicators
               />
@@ -189,6 +203,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 name="build.ivs.floret"
                 component={SelectField}
                 options={IVOptions}
+                isValid={getIn(touched, 'build.ivs.floret') && !getIn(errors, 'build.ivs.floret')}
+                isInvalid={!!getIn(errors, 'build.ivs.floret')}
+                errorMessage={getIn(errors, 'build.ivs.floret')}
                 isDisabled={!values.hero.id_tag}
                 visualIndicators
               />
@@ -202,6 +219,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 name="build.dragonflowers"
                 component={SelectField}
                 options={flowerOptions}
+                isValid={getIn(touched, 'build.dragonflowers') && !getIn(errors, 'build.dragonflowers')}
+                isInvalid={!!getIn(errors, 'build.dragonflowers')}
+                errorMessage={getIn(errors, 'build.dragonflowers')}
                 isDisabled={!values.hero.id_tag}
                 visualIndicators
               />
@@ -364,6 +384,9 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
                 component={SelectField}
                 options={blessingOptions}
                 isDisabled={!values.hero.id_tag || HeroData.isLegendaryOrMythic(values.hero)}
+                isValid={getIn(touched, 'build.blessing') && !getIn(errors, 'build.blessing')}
+                isInvalid={!!getIn(errors, 'build.blessing')}
+                errorMessage={getIn(errors, 'build.blessing')}
                 visualIndicators
               />
             </Col>

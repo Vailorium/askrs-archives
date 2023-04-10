@@ -1,5 +1,6 @@
 interface IHeroBuild {
   _id?: string;
+  buildName: string;
   uid: string;
   heroIdNum: number;
   rarity: number;
