@@ -1,17 +1,17 @@
 interface IHeroBuild {
   _id?: string;
   uid: string;
-  heroIdTag: string;
+  heroIdNum: number;
   rarity: number;
   merges: number;
-  weapon?: string;
-  refine?: string;
-  assist?: string;
-  special?: string;
-  a?: string;
-  b?: string;
-  c?: string;
-  s?: string;
+  weapon?: number;
+  refine?: number;
+  assist?: number;
+  special?: number;
+  a?: number;
+  b?: number;
+  c?: number;
+  s?: number;
   resplendent?: boolean;
   boon?: number;
   bane?: number;
@@ -19,7 +19,7 @@ interface IHeroBuild {
   dragonflowers?: number;
   blessing?: number;
   summonerSupport?: number;
-  allySupportTarget?: string;
+  allySupportTarget?: number;
   allySupportLevel?: number;
   createdAt?: string;
   updatedAt?: string;

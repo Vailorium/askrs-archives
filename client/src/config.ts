@@ -186,7 +186,7 @@ const config: Config = {
       dragonflowers: 0,
       blessing: 0,
       summonerSupport: 0,
-      allySupport: { targetId: '', level: 0 },
+      allySupport: { targetIdNum: undefined, level: 0 },
     },
   },
   SPRITESHEET_WIDTH: 13,

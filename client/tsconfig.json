@@ -20,6 +20,15 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "exclude": [
+    "./coverage/**/*",
+    "./__tests__/**/*",
+    "./dist/**/*",
+    "./src/__tests__/**/*",
+    "./src/models/**/*",
+    "./__mocks__/**/*",
+    "jest.config.js",
+  ],
   "include": [
     "src"
   ]

@@ -18,5 +18,5 @@ export interface HeroBuildModel{
   dragonflowers: number;
   blessing: number;
   summonerSupport: number;
-  allySupport: { targetId: string, level: number };
+  allySupport: { targetIdNum?: number, level: number };
 }

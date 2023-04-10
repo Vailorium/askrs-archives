@@ -1,6 +1,9 @@
 /* eslint-disable no-bitwise */
-import { Element } from '../enums';
+import randomstring from 'randomstring';
+import { Element, IVS, SupportLevel } from '../enums';
+import IHeroBuild from '../interfaces/IHeroBuild';
 import { Legendary, SkillDataModel } from '../models';
+import UnitBuildValuesModel from '../models/UnitBuild/UnitBuildValuesModel';
 import { HeroDataModel } from '../models/hero';
 
 const HeroData = {
@@ -74,6 +77,95 @@ const HeroData = {
     }
     console.log('Empty string returned from legendary element', legendary);
     return '';
+  },
+  getHeroByIdNum(idNum: number | undefined, heroList: HeroDataModel[]): HeroDataModel | undefined {
+    if (!idNum) {
+      return undefined;
+    }
+    let start = 0;
+    let end = heroList.length - 1;
+
+    while (start <= end) {
+      const middle = Math.floor((start + end) / 2);
+
+      if (heroList[middle].id_num === idNum) {
+        return heroList[middle];
+      }
+
+      if (heroList[middle].id_num < idNum) {
+        start = middle + 1;
+      } else {
+        end = middle - 1;
+      }
+    }
+    return undefined;
+  },
+  getSkillByIdNum(
+    idNum: number | undefined, skillList: SkillDataModel[],
+  ): SkillDataModel | undefined {
+    if (!idNum) {
+      return undefined;
+    }
+    let start = 0;
+    let end = skillList.length - 1;
+
+    while (start <= end) {
+      const middle = Math.floor((start + end) / 2);
+
+      if (skillList[middle].id_num === idNum) {
+        return skillList[middle];
+      }
+
+      if (skillList[middle].id_num < idNum) {
+        start = middle + 1;
+      } else {
+        end = middle - 1;
+      }
+    }
+    return undefined;
+  },
+  convertToFullBuild(
+    build: IHeroBuild,
+    heroList: HeroDataModel[],
+    skillList: SkillDataModel[],
+  ): UnitBuildValuesModel {
+    const unitBuild: UnitBuildValuesModel = {
+      hero: this.getHeroByIdNum(build.heroIdNum, heroList) as HeroDataModel,
+      build: {
+        rarity: build.rarity,
+        merges: build.merges,
+        skills: {
+          weapon: this.getSkillByIdNum(build.weapon, skillList),
+          refine: this.getSkillByIdNum(build.refine, skillList),
+          assist: this.getSkillByIdNum(build.assist, skillList),
+          special: this.getSkillByIdNum(build.special, skillList),
+          a: this.getSkillByIdNum(build.a, skillList),
+          b: this.getSkillByIdNum(build.b, skillList),
+          c: this.getSkillByIdNum(build.c, skillList),
+          s: this.getSkillByIdNum(build.s, skillList),
+        },
+        resplendent: !!build.resplendent,
+        ivs: {
+          boon: build.boon ? build.boon : IVS.neutral,
+          bane: build.bane ? build.bane : IVS.neutral,
+          floret: build.floret ? build.floret : IVS.neutral,
+        },
+        dragonflowers: build.dragonflowers ? build.dragonflowers : 0,
+        blessing: build.blessing ? build.blessing : Element.none,
+        summonerSupport: build.summonerSupport ? build.summonerSupport : SupportLevel.none,
+        allySupport: {
+          targetIdNum: build.allySupportTarget,
+          level: build.allySupportLevel ? build.allySupportLevel : SupportLevel.none,
+        },
+      },
+      maxSkills: true,
+      resplendentCostume: !!build.resplendent,
+      // eslint-disable-next-line no-underscore-dangle
+      id: build._id ? build._id : randomstring.generate(),
+      buildName: '', // TODO add
+    };
+
+    return unitBuild;
   },
 };
 export default HeroData;

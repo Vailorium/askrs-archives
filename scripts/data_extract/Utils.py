@@ -1,7 +1,7 @@
 import os, json, errno
 
 base = "../game_files/"
-save_base = "../../server/src/data/"
+save_base = "./data/"
 
 def getDataFromFolder(folder):
   files = []

@@ -8,10 +8,6 @@ async function verifyCSRFToken(req: Request, res: Response, next: NextFunction) 
   const headerToken = req.headers['x-csrf-token'];
   const cookieToken = req.cookies.csrfToken;
 
-  logger.info(JSON.stringify(req.headers));
-
-  logger.info(`Header: ${headerToken}, Cookie: ${cookieToken}`);
-
   if (headerToken !== cookieToken) {
     logger.warn(`Potential CSRF attack, IP: ${req.ip}`);
     res.status(401).send();

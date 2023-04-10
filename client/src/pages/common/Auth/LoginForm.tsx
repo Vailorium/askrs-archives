@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import {
   Button, Col, Form, Row,
 } from 'react-bootstrap';
+
 import AuthService from '../../../services/AuthService';
+import { useGetUserProfileQuery } from '../../../services/UserProfileApi';
 
 interface LoginFormProps {
   onSuccess: () => void,
@@ -12,6 +14,7 @@ interface LoginFormProps {
 }
 const LoginForm: React.FC<LoginFormProps> = (props: LoginFormProps) => {
   const [loginError, setLoginError] = useState('');
+  const { refetch } = useGetUserProfileQuery();
   const { onSuccess, onSubmit, onDone } = props;
 
   return (
@@ -23,6 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = (props: LoginFormProps) => {
         const result = await AuthService.signIn(values.email, values.password);
         if (result.success) {
           onSuccess();
+          refetch();
         } else {
           setLoginError(result.message);
         }

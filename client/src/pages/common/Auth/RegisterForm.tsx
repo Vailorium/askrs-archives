@@ -4,6 +4,7 @@ import {
   Button, Col, Form, Row,
 } from 'react-bootstrap';
 import AuthService from '../../../services/AuthService';
+import { useGetUserProfileQuery } from '../../../services/UserProfileApi';
 
 interface RegisterFormProps {
   onSuccess: () => void,
@@ -12,6 +13,7 @@ interface RegisterFormProps {
 }
 const RegisterForm: React.FC<RegisterFormProps> = (props: RegisterFormProps) => {
   const { onSuccess, onSubmit, onDone } = props;
+  const { refetch } = useGetUserProfileQuery();
   const [registerError, setRegisterError] = useState('');
 
   return (
@@ -22,6 +24,7 @@ const RegisterForm: React.FC<RegisterFormProps> = (props: RegisterFormProps) => 
         const result = await AuthService.registerUser(values.email, values.password);
         if (result.success) {
           onSuccess();
+          refetch();
         } else {
           setRegisterError(result.message);
         }

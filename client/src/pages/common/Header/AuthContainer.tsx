@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
-import { useSelector } from 'react-redux';
-import { UserProfile } from '../../../services/UserSlice';
 import AuthenticatedDropdown from './AuthenticatedDropdown';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import { UserProfile } from '../../../services/UserSlice';
 
-const AuthContainer: React.FC = () => {
-  const profile: UserProfile = useSelector((state: any) => state.user.profile);
+interface AuthContainerProps {
+  profile: UserProfile;
+}
+
+const AuthContainer: React.FC<AuthContainerProps> = (props: AuthContainerProps) => {
+  const { profile } = props;
 
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);

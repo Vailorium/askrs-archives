@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 
 import { Field } from 'formik';
 
-import { Dictionary, SkillDataModel } from '../../../models';
+import { SkillDataModel } from '../../../models';
 import { SkillCategory } from '../../../enums';
 import UnitBuildValuesModel from '../../../models/UnitBuild/UnitBuildValuesModel';
 import HeroData from '../../../services/HeroData';
@@ -20,7 +20,7 @@ interface BuildSkillsProps {
   values: UnitBuildValuesModel;
   sealList: string[];
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
-  localeData: Dictionary<string | null>;
+  localeData: Record<string, string>;
 }
 
 const genericWeapon = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/generic_weapon.png`;
@@ -32,7 +32,7 @@ const b = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/b.png`;
 const c = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/c.png`;
 const s = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/s.png`;
 
-function BuildSkills(props: BuildSkillsProps) {
+const BuildSkills = memo((props: BuildSkillsProps) => {
   const {
     skillList, values, sealList, localeData, setFieldValue,
   } = props;
@@ -271,5 +271,5 @@ function BuildSkills(props: BuildSkillsProps) {
       </Row>
     </Container>
   );
-}
+});
 export default BuildSkills;

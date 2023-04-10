@@ -10,7 +10,7 @@ function SkillName(props: { skill: SkillDataModel | string, locale: string }) {
   const { data, error, isLoading } = useGetLocaleDataQuery(locale || 'USEN');
 
   if (typeof skill === 'object') {
-    const skillIDSplit = skill.id_tag.split('_');
+    const skillIDSplit = skill.name_id.split('_');
     const skillID = skillIDSplit[skillIDSplit.length - 1];
     const skillNameID = `MSID_${skillID}`;
     return (

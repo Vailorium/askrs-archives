@@ -1,4 +1,3 @@
-import 'jest';
 import SystemController from '../src/controllers/SystemController';
 
 const express = require('express');

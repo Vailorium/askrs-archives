@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { Dictionary } from '../../../models';
 import UnitBuildValuesModel from '../../../models/UnitBuild/UnitBuildValuesModel';
 import CanvasHelper from '../../../services/CanvasHelper';
 import StatsCalculator from '../../../services/StatsCalculator';
@@ -14,7 +13,7 @@ import UnitLayer from './layers/UnitLayer';
 
 interface UnitBuildProps {
   unit: UnitBuildValuesModel;
-  localeData: Dictionary<string | null> | null | undefined;
+  localeData: Record<string, string>;
 }
 class UnitBuild extends React.Component<UnitBuildProps> {
   componentDidMount() {

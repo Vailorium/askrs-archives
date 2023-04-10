@@ -14,7 +14,10 @@ const AuthenticatedDropdown: React.FC<AuthenticatedDropdownProps> = ({
   const history = useHistory();
 
   const handleSignOut = () => {
-    AuthService.signOut().then(() => history.push('/'));
+    AuthService.signOut().then(() => {
+      history.push('/');
+      window.location.reload();
+    });
   };
 
   return (

@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import config from '../../../../config';
 
-import { Dictionary, SkillDataModel } from '../../../../models';
+import { SkillDataModel } from '../../../../models';
 import CanvasHelper from '../../../../services/CanvasHelper';
 
 interface LayerProps {
@@ -17,7 +17,7 @@ interface LayerProps {
     c?: SkillDataModel,
     s?: SkillDataModel,
   }
-  localeData: Dictionary<string | null>;
+  localeData: Record<string, string>;
 }
 function SkillPanelLayer(props: LayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { Spinner } from 'react-bootstrap';
 import RegisterForm from '../Auth/RegisterForm';
+import LoadingPanel from '../LoadingPanel';
 
 interface RegisterModalProps {
   show: boolean;
@@ -36,12 +36,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
         onDone={onDone}
       />
     </Modal.Body>
-    <div
-      className="loading-screen loading-screen-rounded"
-      style={{ display: loading ? 'flex' : 'none' }}
-    >
-      <Spinner animation="border" variant="primary" role="status" />
-    </div>
+    <LoadingPanel loading={loading} />
   </Modal>
 );
 

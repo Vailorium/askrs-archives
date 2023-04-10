@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import 'jest';
 // import { IVS } from '../enums';
 // import { Stats, HeroBuildInfoModel } from '../models';
 // import StatsCalculator from './StatsCalculator';

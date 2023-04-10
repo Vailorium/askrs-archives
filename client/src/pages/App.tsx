@@ -14,6 +14,7 @@ import Header from './common/Header/Header';
 import UnitBuilder from './UnitBuilder/UnitBuilder';
 import api from '../api/api';
 import AuthService from '../services/AuthService';
+import MyBuilds from './MyBuilds/MyBuilds';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -25,11 +26,8 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // ping to set up CSRF and ensure server is online, then load user profile
-    api.ping()
-      .then(() => {
-        AuthService.loadUserProfile();
-      });
+    // ping to set up CSRF and ensure server is online
+    api.ping();
   }, []);
 
   return (
@@ -38,6 +36,9 @@ const App: React.FC = () => {
         <Header />
         <div className="main" style={{ background: `url(${process.env.REACT_APP_CDN_URL}/assets/UI/background.jpg)` }}>
           <Switch>
+            <Route exact path="/my-builds">
+              <MyBuilds />
+            </Route>
             <Route exact path="/unit-builder">
               <UnitBuilder />
             </Route>

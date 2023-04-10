@@ -31,6 +31,7 @@ function SkillSprite(props: { skill: SkillDataModel, size: 'xs' | 'sm' | 'md' | 
         role="img"
         style={{
           color: 'white',
+          display: 'inline-block',
           backgroundImage: `url('${imageSrc}')`,
           backgroundSize: `${1024 * (config.SPRITE_HEIGHT[size] / config.SPRITE_HEIGHT.lg)}px ${1024 * (config.SPRITE_HEIGHT[size] / config.SPRITE_HEIGHT.lg)}px`,
           backgroundPositionX: `${-(iconX * config.SPRITE_WIDTH[size])}px`,

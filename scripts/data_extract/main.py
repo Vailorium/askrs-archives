@@ -14,6 +14,8 @@ def handleHeroData():
       # If hero isn't none hero
       if hero['id_tag'] != 'PID_無し':
         heroData.append(hero)
+  
+  heroData.sort(key = lambda hero: hero['id_num'])
   print("Saving data to server/data/heroes/hero_list.json")
   Utils.saveJSONDataToFile(heroData, 'heroes/hero_list.json')
 
@@ -27,6 +29,7 @@ def handleSkillData():
   for group in walkedData:
     for skill in group:
       skillData.append(skill)
+  skillData.sort(key = lambda skill: skill['id_num'])
   print("Saving data to server/data/skills/skill_list.json")
   Utils.saveJSONDataToFile(skillData, 'skills/skill_list.json')
 

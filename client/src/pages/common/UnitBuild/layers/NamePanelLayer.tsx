@@ -1,11 +1,10 @@
 import React, { useRef, useEffect } from 'react';
-import { Dictionary } from '../../../../models';
 import CanvasHelper from '../../../../services/CanvasHelper';
 
 interface LayerProps {
   idTag: string;
   rarity: number;
-  localeData: Dictionary<string | null>;
+  localeData: Record<string, string>;
 }
 
 function NamePanelLayer(props: LayerProps) {

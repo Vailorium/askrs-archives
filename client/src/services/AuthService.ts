@@ -10,9 +10,6 @@ import {
 } from 'firebase/auth';
 import api from '../api/api';
 
-import { store } from '../store';
-import { initialUserState, setProfile } from './UserSlice';
-
 const firebaseConfig = {
   apiKey: 'AIzaSyD1Xl3mapVQ1V8KBTZlwRwfaUcBWvIFTvg',
   authDomain: 'askrs-archives-staging.firebaseapp.com',
@@ -46,8 +43,6 @@ class AuthService {
           .then(async (idToken) => {
             const result = await api.setupUserSession(idToken);
             if (result.status === 'success') {
-              const profile = await api.getUserProfile();
-              store.dispatch(setProfile(profile));
               resolve({
                 success: true,
                 message: 'Success',
@@ -78,8 +73,6 @@ class AuthService {
             const result = await api.setupUserSession(idToken);
             // TODO: email validation
             if (result.status === 'success') {
-              const profile = await api.getUserProfile();
-              store.dispatch(setProfile(profile));
               resolve({
                 success: true,
                 message: 'Success',
@@ -102,17 +95,7 @@ class AuthService {
   }
 
   public async signOut() {
-    api.destroyUserSession()
-      .then(() => this.unloadUserProfile());
-  }
-
-  public loadUserProfile() {
-    api.getUserProfile()
-      .then((profile) => store.dispatch(setProfile(profile)));
-  }
-
-  public unloadUserProfile() {
-    store.dispatch(setProfile(initialUserState.profile));
+    await api.destroyUserSession();
   }
 }
 export default new AuthService();

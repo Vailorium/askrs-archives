@@ -1,13 +1,23 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
+import { UserProfile } from '../../../services/UserSlice';
 
-const NavigationLinks: React.FC = () => (
-  <Nav className="me-auto">
-    <Nav.Link href="/">Home</Nav.Link>
-    <Nav.Link>AR-D Builder</Nav.Link>
-    <Nav.Link href="/unit-builder">Unit Builder</Nav.Link>
-    <Nav.Link href="/unit-db">Unit Database</Nav.Link>
-  </Nav>
-);
+interface NavigationLinksProps {
+  profile: UserProfile | null;
+}
 
+const NavigationLinks: React.FC<NavigationLinksProps> = (props: NavigationLinksProps) => {
+  const { profile } = props;
+  return (
+    <Nav className="me-auto">
+      <Link className="nav-link" to="/">Home</Link>
+      {
+        profile && profile.username && <Link className="nav-link" to="/my-builds">My Builds</Link>
+      }
+      {/* <Link className="nav-link" to="#">AR-D Builder</Link> */}
+      <Link className="nav-link" to="/unit-builder">Unit Builder</Link>
+    </Nav>
+  );
+};
 export default NavigationLinks;

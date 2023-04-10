@@ -19,6 +19,3 @@ export interface Legendary {
   pair_up: boolean;
   ae_extra: boolean;
 }
-export interface Dictionary<T>{
-  [key: string]: T;
-}

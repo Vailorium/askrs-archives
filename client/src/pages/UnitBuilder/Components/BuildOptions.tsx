@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
+import React, { memo } from 'react';
 // import * as ReactDOMServer from 'react-dom/server';
 
 import Container from 'react-bootstrap/Container';
@@ -9,14 +8,11 @@ import Form from 'react-bootstrap/Form';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { Field } from 'formik';
 import { ButtonGroup } from 'react-bootstrap';
-import VirtualList from 'react-tiny-virtual-list';
-import { Dictionary, HeroDataModel } from '../../../models';
+import { HeroDataModel } from '../../../models';
 import SelectField from '../../common/SelectField';
 import UnitBuildValuesModel from '../../../models/UnitBuild/UnitBuildValuesModel';
 import { Element, IVS } from '../../../enums';
 import HeroData from '../../../services/HeroData';
-import HeroName from '../../common/Hero/HeroName';
-import HeroTitle from '../../common/Hero/HeroTitle';
 import HeroIcon from '../../common/Hero/HeroIcon';
 
 const ascendedFloret = `${process.env.REACT_APP_CDN_URL}/assets/UI/unit-builder/floret.webp`;
@@ -50,11 +46,11 @@ interface BuildOptionsProps {
   heroList: HeroDataModel[],
   values: UnitBuildValuesModel,
   resplendentList: string[],
-  localeData: Dictionary<(string | null)>,
+  localeData: Record<string, string>,
   setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void,
 }
 
-function BuildOptions(props: BuildOptionsProps) {
+const BuildOptions = memo((props: BuildOptionsProps) => {
   const {
     heroList, values, resplendentList, setFieldValue, localeData,
   } = props;
@@ -376,5 +372,5 @@ function BuildOptions(props: BuildOptionsProps) {
       </Row>
     </Container>
   );
-}
+});
 export default BuildOptions;
