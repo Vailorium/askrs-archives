@@ -5,8 +5,6 @@ const unitBuilderFormSchema = yup.object({
   maxSkills: yup.boolean(),
   resplendentCostume: yup.boolean(),
   id: yup.string().required(),
-  // eslint-disable-next-line max-len
-  // buildName: yup.string().max(30, 'Build Name must be less than 31 characters!').required('Build Name is required!'),
   buildName: yup.string().optional(),
   // frontend schema doesn't need to be strict with exactly what data is sent,
   // its just a guide for users
@@ -20,9 +18,29 @@ const unitBuilderFormSchema = yup.object({
     skills: yup.object().required(),
     resplendent: yup.boolean().required(),
     ivs: yup.object({
-      boon: yup.number().min(IVS.neutral).max(IVS.res).required(),
-      bane: yup.number().min(IVS.neutral).max(IVS.res).required(),
-      floret: yup.number().min(IVS.neutral).max(IVS.res).required(),
+      boon: yup
+        .number()
+        .min(IVS.neutral)
+        .max(IVS.res)
+        .test('unique-ivs', 'IVs must be unique', function (value) {
+          return value !== IVS.neutral
+            || this.parent.floret !== value;
+        })
+        .required(),
+      bane: yup
+        .number()
+        .min(IVS.neutral)
+        .max(IVS.res)
+        .required(),
+      floret: yup
+        .number()
+        .min(IVS.neutral)
+        .max(IVS.res)
+        .test('unique-ivs', 'IVs must be unique', function (value) {
+          return value !== IVS.neutral
+            || this.parent.boon !== value;
+        })
+        .required(),
     }),
     dragonflowers: yup.number().min(0).required(),
     blessing: yup.number().min(Element.none).max(Element.anima),

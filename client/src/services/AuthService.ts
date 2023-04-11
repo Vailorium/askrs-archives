@@ -60,16 +60,33 @@ class AuthService {
               success: false,
               message: error.message,
             });
-          })),
+          }))
+        .catch((error: AuthError) => {
+          let { message } = error;
+          switch (error.code) {
+            case 'auth/invalid-login-credentials':
+              message = 'Invalid Email/Password';
+              break;
+            default:
+              console.error(error);
+              break;
+          }
+          resolve({
+            success: false,
+            message,
+          });
+        }),
     );
   }
 
-  public async registerUser(email: string, password: string): Promise<LoginMessage> {
+  public async registerUser(
+    username: string, email: string, password: string,
+  ): Promise<LoginMessage> {
     return new Promise(
       (resolve) => createUserWithEmailAndPassword(this.auth, email, password)
         .then(async (credentials) => credentials.user.getIdToken()
           .then(async (idToken) => {
-            await api.handlePostRegister(idToken);
+            await api.handlePostRegister(username, idToken);
             const result = await api.setupUserSession(idToken);
             // TODO: email validation
             if (result.status === 'success') {

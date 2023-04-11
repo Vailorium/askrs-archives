@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import {
   Button, Col, Form, Row,
 } from 'react-bootstrap';
-
 import AuthService from '../../../services/AuthService';
 import { useGetUserProfileQuery } from '../../../services/UserProfileApi';
+import loginSchema from '../../../lib/LoginSchema';
 
 interface LoginFormProps {
   onSuccess: () => void,
@@ -19,6 +19,8 @@ const LoginForm: React.FC<LoginFormProps> = (props: LoginFormProps) => {
 
   return (
     <Formik
+      validationSchema={loginSchema}
+      validateOnChange={false}
       initialValues={{ email: '', password: '' }}
       onSubmit={async (values) => {
         onSubmit();
@@ -52,8 +54,10 @@ const LoginForm: React.FC<LoginFormProps> = (props: LoginFormProps) => {
                 value={values.email}
                 onChange={handleChange}
                 isValid={touched.email && !errors.email}
-                isInvalid={!!loginError}
+                isInvalid={!!loginError || !!errors.email}
               />
+              { !!errors.email && <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback> }
+              { !!loginError && <Form.Control.Feedback type="invalid">{loginError}</Form.Control.Feedback> }
             </Form.Group>
           </Row>
           <Row className="mb-3">
@@ -65,8 +69,10 @@ const LoginForm: React.FC<LoginFormProps> = (props: LoginFormProps) => {
                 value={values.password}
                 onChange={handleChange}
                 isValid={touched.password && !errors.password}
-                isInvalid={!!loginError}
+                isInvalid={!!loginError || !!errors.password}
               />
+              { !!errors.password && <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback> }
+              { !!loginError && <Form.Control.Feedback type="invalid">{loginError}</Form.Control.Feedback> }
             </Form.Group>
           </Row>
           <Row className="mb-3">

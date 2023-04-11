@@ -3,9 +3,16 @@ import { Request, Response, Router } from 'express';
 import Controller from '../interfaces/Controller';
 import IHeroBuild from '../interfaces/IHeroBuild';
 import logger from '../logger';
-import DBService from '../services/DBService';
 import { verifySessionCookie } from '../middleware/AuthMiddleware';
 import CustomDecodedIdToken from '../interfaces/CustomDecodedIdToken';
+import {
+  createHeroBuild,
+  deleteHeroBuild,
+  getHeroBuildByBuildId,
+  getHeroBuildsByHeroIdTag,
+  getHeroBuildsByUid,
+  updateHeroBuild,
+} from '../models/HeroBuildModel';
 
 class HeroBuildController implements Controller {
   public router: Router;
@@ -28,25 +35,25 @@ class HeroBuildController implements Controller {
 
   private getMyBuilds = async (req: Request, res: Response<IHeroBuild[]>) => {
     const { uid } = req.user as CustomDecodedIdToken;
-    const builds = await DBService.getHeroBuildsByUid(uid);
+    const builds = await getHeroBuildsByUid(uid);
     res.status(200).send(builds);
   }
 
   private getAllBuildsForHero = async (req: Request<{ heroIdTag: string }>, res: Response<IHeroBuild[]>) => {
     const { heroIdTag } = req.params;
-    const builds = await DBService.getHeroBuildsByHeroIdTag(heroIdTag);
+    const builds = await getHeroBuildsByHeroIdTag(heroIdTag);
     res.status(200).send(builds);
   };
 
   private getAllBuildsForUser = async (req: Request<{ uid: string }>, res: Response<IHeroBuild[]>) => {
     const { uid } = req.params;
-    const builds = await DBService.getHeroBuildsByUid(uid);
+    const builds = await getHeroBuildsByUid(uid);
     res.status(200).send(builds);
   };
 
   private getBuildByBuildId = async (req: Request<{ buildId: string }>, res: Response<IHeroBuild | null>) => {
     const { buildId } = req.params;
-    DBService.getHeroBuildByBuildId(buildId)
+    getHeroBuildByBuildId(buildId)
       .then((build) => {
         res.status(200).send(build);
       })
@@ -58,7 +65,7 @@ class HeroBuildController implements Controller {
   private createBuild = async (req: Request<{}, {}, IHeroBuild>, res: Response<IHeroBuild>) => {
     const { uid } = req.user as CustomDecodedIdToken;
     const buildData: IHeroBuild = { ...req.body, uid };
-    DBService.createHeroBuild(buildData)
+    createHeroBuild(buildData)
       .then((build) => {
         res.status(201).send(build);
       })
@@ -72,12 +79,12 @@ class HeroBuildController implements Controller {
     const { uid } = req.user as CustomDecodedIdToken;
     const { buildId } = req.params;
 
-    DBService.getHeroBuildByBuildId(buildId)
+    getHeroBuildByBuildId(buildId)
       .then((build) => {
         // if user is the person who created the build
         if (build.uid === uid) {
           const buildData = req.body;
-          DBService.updateHeroBuild(buildId, buildData)
+          updateHeroBuild(buildId, buildData)
             .then((result) => {
               res.status(200).send(result as IHeroBuild);
             })
@@ -96,10 +103,10 @@ class HeroBuildController implements Controller {
     const { uid } = req.user as CustomDecodedIdToken;
     const { buildId } = req.params;
 
-    DBService.getHeroBuildByBuildId(buildId)
+    getHeroBuildByBuildId(buildId)
       .then((build) => {
         if (build.uid === uid) {
-          DBService.deleteHeroBuild(buildId)
+          deleteHeroBuild(buildId)
             .then((success) => {
               if (success) {
                 res.status(200).send();

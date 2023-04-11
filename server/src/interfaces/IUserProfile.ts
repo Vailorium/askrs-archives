@@ -1,7 +1,7 @@
 import { Role } from '../config';
 
-interface UserProfile {
+interface IUserProfile {
   username: string;
   role: Role;
 }
-export default UserProfile;
+export default IUserProfile;

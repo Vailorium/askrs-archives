@@ -64,7 +64,7 @@ const api = {
   getUserProfile:
     async () => handleHttpRequest<UserProfile>('GET', '/profile'),
   handlePostRegister:
-    async (idToken: string) => handleHttpRequest('POST', '/register', { body: { idToken } }),
+    async (username: string, idToken: string) => handleHttpRequest('POST', '/register', { body: { username, idToken } }),
   getAllBuildsForHero:
     async (heroIdTag: string) => handleHttpRequest<IHeroBuild[]>('GET', `/builds/by-id-tag/${heroIdTag}`),
   getAllBuildsForUser:
