@@ -6,6 +6,7 @@ import {
 
 import AuthService from '../../../services/AuthService';
 import { useGetUserProfileQuery } from '../../../services/UserProfileApi';
+import loginSchema from '../../../lib/LoginSchema';
 
 interface LoginFormProps {
   onSuccess: () => void,
@@ -19,6 +20,7 @@ const LoginForm: React.FC<LoginFormProps> = (props: LoginFormProps) => {
 
   return (
     <Formik
+      validationSchema={loginSchema}
       initialValues={{ email: '', password: '' }}
       onSubmit={async (values) => {
         onSubmit();
