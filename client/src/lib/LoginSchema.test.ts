@@ -8,16 +8,16 @@ describe('loginSchema', () => {
 
   it('should throw an error for an invalid email', async () => {
     const input = { email: 'invalid-email', password: 'password' };
-    await expect(loginSchema.validate(input)).rejects.toThrowError('email must be a valid email');
+    await expect(loginSchema.validate(input)).rejects.toThrowError('Must be a valid email address');
   });
 
   it('should throw an error for a missing email', async () => {
     const input = { password: 'password' };
-    await expect(loginSchema.validate(input)).rejects.toThrowError('email is a required field');
+    await expect(loginSchema.validate(input)).rejects.toThrowError('Email is required');
   });
 
   it('should throw an error for a missing password', async () => {
     const input = { email: 'john@example.com' };
-    await expect(loginSchema.validate(input)).rejects.toThrowError('password is a required field');
+    await expect(loginSchema.validate(input)).rejects.toThrowError('Password is required');
   });
 });

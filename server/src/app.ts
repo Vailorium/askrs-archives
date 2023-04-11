@@ -7,6 +7,7 @@ import cors from 'cors';
 import Controller from './interfaces/Controller';
 import logger from './logger';
 import { verifyCSRFToken } from './middleware/AuthMiddleware';
+import DBService from './services/DBService';
 
 const cookieParser = require('cookie-parser');
 
@@ -37,10 +38,15 @@ class App {
   }
 
   private initialize = async (controllers: Array<Controller>, middleware: Array<Controller>) => {
+    await this.initializeDatabase();
     this.initializeMiddleware(middleware);
     this.initializeControllers(controllers);
     this.initializePingEndpoint();
   };
+
+  private initializeDatabase = async () => {
+    await DBService.initialize();
+  }
 
   private initializeMiddleware = (middleware: Array<Controller>) => {
     this.app.use(bodyParser.urlencoded({ extended: true }));

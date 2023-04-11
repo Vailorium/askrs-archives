@@ -2,9 +2,9 @@ import {
   CookieOptions, Request, Response, Router,
 } from 'express';
 import { PermissionLevel, Role } from '../config';
-
+import { createUserProfile, getUserProfileByUid } from '../models/UserProfileModel';
 import Controller from '../interfaces/Controller';
-import UserProfile from '../interfaces/UserProfile';
+import IUserProfile from '../interfaces/IUserProfile';
 import logger from '../logger';
 import FirebaseService from '../services/FirebaseService';
 
@@ -79,41 +79,61 @@ class AuthController implements Controller {
       });
   }
 
-  private handlePostRegister = (req: Request<{}, {}, { idToken: string }>, res: Response) => {
-    const { idToken } = req.body;
+  private handlePostRegister = (
+    req: Request<{}, {}, { username: string, idToken: string }>, res: Response,
+  ) => {
+    const { username, idToken } = req.body;
     FirebaseService.auth
       .verifyIdToken(idToken)
-      .then((decodedIdToken) => {
+      .then(async (decodedIdToken) => {
         const { uid } = decodedIdToken;
-        FirebaseService.auth.setCustomUserClaims(
-          uid,
-          { role: Role.USER, permissionLevel: PermissionLevel.DEFAULT_USER },
-        ).then(() => {
-          res.status(200).send();
-        }).catch((error) => {
-          logger.error('Error assigning user permissions: ', error);
-          res.status(500).send();
-        });
+        createUserProfile({ uid, username })
+          .then(() => {
+            FirebaseService.auth.setCustomUserClaims(
+              uid,
+              { role: Role.USER, permissionLevel: PermissionLevel.DEFAULT_USER },
+            ).then(() => {
+              res.status(200).send();
+            }).catch((error) => {
+              logger.error('Error assigning user permissions: ', error);
+              res.status(500).send();
+            });
+          })
+          .catch((error) => {
+            logger.warn('Error assigning user display name: ', error);
+            res.status(500).send();
+          });
       })
       .catch((error) => {
-        logger.warn('Error assigning user permissions: ', error);
+        logger.warn('Error assigning user permissions/display name: ', error);
         res.status(401).send();
       });
   }
 
-  private getUserProfile = async (req: Request, res: Response<UserProfile>) => {
+  private getUserProfile = async (req: Request, res: Response<IUserProfile>) => {
     // get user details from cookie
     const sessionCookie = req.cookies.session;
     FirebaseService.getUserClaimsFromSession(sessionCookie)
       .then((decodedClaims) => {
+        const { uid } = decodedClaims;
         let role = Role.USER;
         if (decodedClaims.role) {
           role = decodedClaims.role;
         }
-        res.status(200).send({
-          username: decodedClaims.email || '',
-          role,
-        });
+        getUserProfileByUid(uid)
+          .then((userProfile) => {
+            res.status(200).send({
+              username: userProfile.username,
+              role,
+            });
+          })
+          .catch(() => {
+            logger.error(`User ${uid} is missing a user profile on the DB`);
+            res.status(200).send({
+              username: '',
+              role: Role.USER,
+            });
+          });
       })
       .catch(() => {
         res.status(200).send({
