@@ -1,0 +1,31 @@
+import Joi from 'joi';
+
+const heroBuildSchema = Joi.object({
+  _id: Joi.string().optional(),
+  buildName: Joi.string().required(),
+  uid: Joi.string().optional().allow(''),
+  heroIdNum: Joi.number().required(),
+  rarity: Joi.number().required(),
+  merges: Joi.number().required(),
+  weapon: Joi.number().optional(),
+  refine: Joi.number().optional(),
+  assist: Joi.number().optional(),
+  special: Joi.number().optional(),
+  a: Joi.number().optional(),
+  b: Joi.number().optional(),
+  c: Joi.number().optional(),
+  s: Joi.number().optional(),
+  resplendent: Joi.boolean().optional(),
+  boon: Joi.number().optional(),
+  bane: Joi.number().optional(),
+  floret: Joi.number().optional(),
+  dragonflowers: Joi.number().optional(),
+  blessing: Joi.number().optional(),
+  summonerSupport: Joi.number().optional(),
+  allySupportTarget: Joi.number().optional(),
+  allySupportLevel: Joi.number().optional(),
+  createdAt: Joi.string().optional(),
+  updatedAt: Joi.string().optional(),
+  __v: Joi.string().optional(),
+});
+export default heroBuildSchema;

@@ -13,6 +13,8 @@ import {
   getHeroBuildsByUid,
   updateHeroBuild,
 } from '../models/HeroBuildModel';
+import heroBuildSchema from '../lib/HeroBuildSchema';
+import { validateBody } from '../middleware/ValidationMiddleware';
 
 class HeroBuildController implements Controller {
   public router: Router;
@@ -28,8 +30,8 @@ class HeroBuildController implements Controller {
     this.router.get('/builds/by-id-tag/:heroIdTag', this.getAllBuildsForHero);
     this.router.get('/builds/by-uid/:uid', this.getAllBuildsForUser);
     this.router.get('/build/:buildId', this.getBuildByBuildId);
-    this.router.post('/build', verifySessionCookie, this.createBuild);
-    this.router.put('/build/:buildId', verifySessionCookie, this.updateBuild);
+    this.router.post('/build', verifySessionCookie, validateBody(heroBuildSchema), this.createBuild);
+    this.router.put('/build/:buildId', verifySessionCookie, validateBody(heroBuildSchema), this.updateBuild);
     this.router.delete('/build/:buildId', verifySessionCookie, this.deleteBuild);
   }
 

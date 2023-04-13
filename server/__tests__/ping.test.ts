@@ -12,4 +12,3 @@ test('Test ping endpoint', async () => {
   const res = await request.get('/ping');
   expect(JSON.parse(res.text)).toStrictEqual({ message: 'Pong!' });
 });
-export {};
