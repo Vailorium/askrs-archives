@@ -7,6 +7,8 @@ import Controller from '../interfaces/Controller';
 import IUserProfile from '../interfaces/IUserProfile';
 import logger from '../logger';
 import FirebaseService from '../services/FirebaseService';
+import { validateBody } from '../middleware/ValidationMiddleware';
+import postRegisterSchema from '../lib/PostRegisterSchema';
 
 class AuthController implements Controller {
   public router: Router;
@@ -18,7 +20,7 @@ class AuthController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.post('/register', this.handlePostRegister);
+    this.router.post('/register', validateBody(postRegisterSchema), this.handlePostRegister);
     this.router.post('/session', this.setupUserSession);
     this.router.delete('/session', this.destroyUserSession);
     this.router.delete('/sessions', this.destroyAllUserSessions);

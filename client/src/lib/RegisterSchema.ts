@@ -1,15 +1,23 @@
 import * as yup from 'yup';
+import ErrorMessages from './SchemaErrorMessages';
 
 const registerSchema = yup.object({
-  username: yup.string().max(20).required('Username is required'),
-  email: yup.string().email('Must be a valid email').required('Email is required'),
+  username: yup
+    .string()
+    .max(20, ErrorMessages.Register.USERNAME_MAX)
+    .required(ErrorMessages.Register.USERNAME_REQUIRED),
+  email: yup
+    .string()
+    .email(ErrorMessages.Register.EMAIL_VALID_ADDRESS)
+    .required(ErrorMessages.Register.EMAIL_REQUIRED),
   password: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters long'),
+    .required(ErrorMessages.Register.PASSWORD_REQUIRED)
+    .min(8, ErrorMessages.Register.PASSWORD_MIN),
   confirmPassword: yup
     .string()
-    .test('passwords-match', 'Passwords must match', function passwordsMatch(value) { return this.parent.password === value; })
-    .required('Confirm Password is required'),
+    .test('passwords-match', ErrorMessages.Register.CONFIRM_PASSWORD_MATCH,
+      function passwordsMatch(value) { return this.parent.password === value; })
+    .required(ErrorMessages.Register.CONFIRM_PASSWORD_REQUIRED),
 });
 export default registerSchema;
