@@ -1,6 +1,6 @@
 # Askrs Archives prebuild Scripts
 
-Prebuild scripts that are run before building the client and server containers.
+Assisting scripts for the app. Might move to another repo sometime.
 
 ## Prerequisites
 
