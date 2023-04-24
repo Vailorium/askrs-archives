@@ -3,7 +3,6 @@ import { App } from 'firebase-admin/app';
 import { Auth } from 'firebase-admin/lib/auth/auth';
 import CustomDecodedIdToken from '../interfaces/CustomDecodedIdToken';
 
-console.log(process.env);
 const serviceAccount: admin.ServiceAccount = {
   // type: process.env.FIREBASE_ADMIN_TYPE,
   projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
