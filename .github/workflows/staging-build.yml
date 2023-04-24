@@ -18,6 +18,20 @@ jobs:
         env:
           REACT_APP_CDN_URL: ${{ secrets.REACT_APP_CDN_URL }}
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_NAME: ${{ vars.DB_NAME }}
+          FIREBASE_ADMIN_CLIENT_EMAIL: ${{ secrets.FIREBASE_ADMIN_CLIENT_EMAIL }}
+          FIREBASE_ADMIN_CLIENT_ID: ${{ secrets.FIREBASE_ADMIN_CLIENT_ID }}
+          FIREBASE_ADMIN_PRIVATE_KEY: ${{ secrets.FIREBASE_ADMIN_PRIVATE_KEY }}
+          FIREBASE_ADMIN_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_ADMIN_PRIVATE_KEY_ID }}
+          FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL: ${{ vars.FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL }}
+          FIREBASE_ADMIN_AUTH_URI: ${{ vars.FIREBASE_ADMIN_AUTH_URI }}
+          FIREBASE_ADMIN_CLIENT_X509_CERT_URL: ${{ vars.FIREBASE_ADMIN_CLIENT_X509_CERT_URL }}
+          FIREBASE_ADMIN_PROJECT_ID: ${{ vars.FIREBASE_ADMIN_PROJECT_ID }}
+          FIREBASE_ADMIN_TOKEN_URI: ${{ vars.FIREBASE_ADMIN_TOKEN_URI }}
+          FIREBASE_ADMIN_TYPE: ${{ vars.FIREBASE_ADMIN_TYPE }}
         run: docker compose -f docker-compose.staging.yml build
 
       - name: Install doctl

@@ -2,7 +2,9 @@ import mongoose, { Connection } from 'mongoose';
 import logger from '../logger';
 
 class DatabaseService {
-  private dbURI: string = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/`;
+  private dbURI: string = process.env.NODE_ENV === 'development'
+    ? `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/`
+    : `mongodb+srv://${process.env.DB_HOST}/`;
 
   private connection: Connection;
 
@@ -28,6 +30,8 @@ class DatabaseService {
         user: process.env.DB_USER,
         pass: process.env.DB_PASS,
         autoIndex: process.env.NODE_ENV === 'development',
+        authSource: 'admin',
+        tls: process.env.NODE_ENV !== 'development',
         dbName: process.env.DB_NAME,
       },
     );
