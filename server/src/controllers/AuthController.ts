@@ -2,13 +2,15 @@ import {
   CookieOptions, Request, Response, Router,
 } from 'express';
 import { PermissionLevel, Role } from '../config';
-import { createUserProfile, getUserProfileByUid } from '../models/UserProfileModel';
+import { createUserProfile, getUserProfileByUid, getUserProfileByUsername } from '../models/UserProfileModel';
 import Controller from '../interfaces/Controller';
-import IUserProfile from '../interfaces/IUserProfile';
 import logger from '../logger';
 import FirebaseService from '../services/FirebaseService';
 import { validateBody } from '../middleware/ValidationMiddleware';
 import postRegisterSchema from '../lib/PostRegisterSchema';
+import IHeroBuild from '../interfaces/db/IDBHeroBuild';
+import { getHeroBuildsByUid } from '../models/HeroBuildModel';
+import IUserInfo from '../interfaces/profile/IUserInfo';
 
 class AuthController implements Controller {
   public router: Router;
@@ -25,6 +27,9 @@ class AuthController implements Controller {
     this.router.delete('/session', this.destroyUserSession);
     this.router.delete('/sessions', this.destroyAllUserSessions);
     this.router.get('/profile', this.getUserProfile);
+    this.router.get('/profile/by-uid/:uid', this.getUserProfileByUid);
+    this.router.get('/profile/by-username/:username', this.getUserProfileByUsername);
+    this.router.get('/profile/:search', this.searchForUserProfile);
   }
 
   private setupUserSession = async (req: Request<{}, {}, { idToken: string }>, res: Response) => {
@@ -89,7 +94,14 @@ class AuthController implements Controller {
       .verifyIdToken(idToken)
       .then(async (decodedIdToken) => {
         const { uid } = decodedIdToken;
-        createUserProfile({ uid, username })
+        createUserProfile({
+          uid,
+          username,
+          socials: {},
+          favoriteHeroes: [],
+          favoriteARD: [],
+          favoriteARO: [],
+        })
           .then(() => {
             FirebaseService.auth.setCustomUserClaims(
               uid,
@@ -112,7 +124,7 @@ class AuthController implements Controller {
       });
   }
 
-  private getUserProfile = async (req: Request, res: Response<IUserProfile>) => {
+  private getUserProfile = async (req: Request, res: Response<IUserInfo>) => {
     // get user details from cookie
     const sessionCookie = req.cookies.session;
     FirebaseService.getUserClaimsFromSession(sessionCookie)
@@ -143,6 +155,124 @@ class AuthController implements Controller {
           role: Role.USER,
         });
       });
+  }
+
+  private getUserProfileByUid = async (
+    req: Request<{ uid: string }>,
+    res: Response<{
+      profile: IUserInfo;
+      builds: IHeroBuild[]
+    }>,
+  ) => {
+    const currentUid = req.user ? req.user.uid : undefined;
+    const { uid } = req.params;
+    const isViewingOwnProfile = !!currentUid && uid === currentUid;
+
+    const dbProfile = await getUserProfileByUid(uid);
+    const customClaims = await FirebaseService.getUserCustomClaimsByUid(uid);
+
+    if (!dbProfile) {
+      res.status(404).send();
+      return;
+    }
+
+    if (!customClaims.role) {
+      customClaims.role = Role.USER;
+    }
+
+    const profile = {
+      ...dbProfile,
+      role: customClaims.role,
+    };
+    const builds = await getHeroBuildsByUid(uid, isViewingOwnProfile);
+
+    res.status(200).send({
+      profile,
+      builds,
+    });
+  }
+
+  private getUserProfileByUsername = async (
+    req: Request<{ username: string }>,
+    res: Response<{
+      profile: IUserInfo;
+      builds: IHeroBuild[]
+    }>,
+  ) => {
+    const currentUid = req.user ? req.user.uid : undefined;
+    const { username } = req.params;
+
+    const dbProfile = await getUserProfileByUsername(username);
+    if (!dbProfile) {
+      res.status(404).send();
+      return;
+    }
+    const { uid } = dbProfile;
+    const isViewingOwnProfile = !!currentUid && uid === currentUid;
+
+    const customClaims = await FirebaseService.getUserCustomClaimsByUid(uid);
+    if (!customClaims.role) {
+      customClaims.role = Role.USER;
+    }
+
+    const profile = {
+      ...dbProfile,
+      role: customClaims.role,
+    };
+    const builds = await getHeroBuildsByUid(uid, isViewingOwnProfile);
+
+    res.status(200).send({
+      profile,
+      builds,
+    });
+  }
+
+  private searchForUserProfile = async (
+    req: Request<{ search: string }>,
+    res: Response<{
+      profile: IUserInfo;
+      builds: IHeroBuild[]
+    }>,
+  ) => {
+    const currentUid = req.user ? req.user.uid : undefined;
+    const { search } = req.params;
+
+    let dbProfile;
+    try {
+      dbProfile = await getUserProfileByUid(search);
+    } catch (e) {
+      try {
+        dbProfile = await getUserProfileByUsername(search);
+      } catch (er) {
+        res.status(404).send();
+        return;
+      }
+    }
+    // const dbProfile = await getUs
+    // erProfileByUid(search) || await getUserProfileByUsername(search);
+
+    if (!dbProfile) {
+      res.status(404).send();
+      return;
+    }
+    const { uid } = dbProfile;
+    const isViewingOwnProfile = !!currentUid && uid === currentUid;
+
+    const customClaims = await FirebaseService.getUserCustomClaimsByUid(uid);
+    if (!customClaims.role) {
+      customClaims.role = Role.USER;
+    }
+
+    const profile = {
+      ...dbProfile,
+      role: customClaims.role,
+    };
+    const builds = await getHeroBuildsByUid(uid, isViewingOwnProfile);
+
+    res.status(200).send({
+      profile,
+      builds,
+    });
   }
 }
 export default AuthController;

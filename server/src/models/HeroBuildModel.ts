@@ -1,9 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
-import IHeroBuild from '../interfaces/IHeroBuild';
+import IHeroBuild from '../interfaces/db/IDBHeroBuild';
 
 const HeroBuildSchema: Schema = new Schema({
   uid: { type: String, required: true, index: true },
   buildName: { type: String, required: true },
+  private: { type: Boolean, required: true, default: false },
   heroIdNum: { type: Number, required: true, index: true },
   rarity: { type: Number, required: false, default: 0 },
   merges: { type: Number, required: false, default: 0 },
@@ -24,8 +25,7 @@ const HeroBuildSchema: Schema = new Schema({
   summonerSupport: { type: Number, required: false, default: 0 },
   allySupportTarget: { type: Number, required: false },
   allySupportLevel: { type: Number, required: false, default: 0 },
-});
-HeroBuildSchema.set('timestamps', true);
+}, { timestamps: true });
 
 const HeroBuildModel = mongoose.model<IHeroBuild>('hero-build', HeroBuildSchema);
 
@@ -38,8 +38,12 @@ const getHeroBuildByBuildId = async (buildId: string): Promise<IHeroBuild> => {
   return build;
 };
 
-const getHeroBuildsByUid = async (uid: string): Promise<IHeroBuild[]> => {
-  const builds = await HeroBuildModel.find({ uid }).exec();
+const getHeroBuildsByUid = async (
+  uid: string, returnPrivateBuilds: boolean = false,
+): Promise<IHeroBuild[]> => {
+  const builds = returnPrivateBuilds
+    ? await HeroBuildModel.find({ uid }).exec()
+    : await HeroBuildModel.find({ uid, private: false }).exec();
   return builds;
 };
 

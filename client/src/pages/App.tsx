@@ -15,6 +15,8 @@ import UnitBuilder from './UnitBuilder/UnitBuilder';
 import api from '../api/api';
 import AuthService from '../services/AuthService';
 import MyBuilds from './MyBuilds/MyBuilds';
+import Profile from './Profile/Profile';
+import NotFound from './404/NotFound';
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -42,8 +44,17 @@ const App: React.FC = () => {
             <Route exact path="/unit-builder">
               <UnitBuilder />
             </Route>
+            <Route exact path="/404">
+              <NotFound />
+            </Route>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route exact path="/:id">
+              <Profile />
+            </Route>
+            <Route path="*">
+              <NotFound />
             </Route>
           </Switch>
         </div>

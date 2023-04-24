@@ -1,4 +1,4 @@
-interface IUserProfile {
+interface IDBUserProfile {
   uid: string;
   username: string;
   picture?: number;
@@ -12,4 +12,4 @@ interface IUserProfile {
   favoriteARD: Array<string>;
   favoriteARO: Array<string>;
 }
-export default IUserProfile;
+export default IDBUserProfile;

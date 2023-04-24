@@ -27,7 +27,7 @@ const AuthenticatedDropdown: React.FC<AuthenticatedDropdownProps> = ({
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+        <Dropdown.Item href={`/${profile.username}`}>Profile</Dropdown.Item>
         <Dropdown.Item href="#">Settings</Dropdown.Item>
         <Dropdown.Item href="#" onClick={handleSignOut}>
           Logout

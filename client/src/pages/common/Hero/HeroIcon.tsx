@@ -6,9 +6,17 @@ import config from '../../../config';
 import HeroName from './HeroName';
 import HeroTitle from './HeroTitle';
 
-function HeroIcon(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg', isResplendent: boolean }) {
-  const { hero, size, isResplendent } = props;
+interface HeroIconProps extends React.HTMLProps<HTMLImageElement> {
+  hero: HeroDataModel;
+  imageSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  isResplendent: boolean;
+}
 
+const HeroIcon: React.FC<HeroIconProps> = (
+  {
+    hero, imageSize, isResplendent, ...htmlProps
+  }: HeroIconProps,
+) => {
   let imageHero = '';
   if (hero.face_name !== null) {
     imageHero = isResplendent ? `${hero.face_name}EX01` : hero.face_name;
@@ -34,12 +42,14 @@ function HeroIcon(props: { hero: HeroDataModel, size: 'xs' | 'sm' | 'md' | 'lg',
         style={{
           color: 'white',
           backgroundImage: `url('${imageSrc}')`,
-          backgroundSize: `${config.SPRITE_HEIGHT[size]}px`,
-          height: `${config.SPRITE_HEIGHT[size]}px`,
-          width: `${config.SPRITE_WIDTH[size]}px`,
+          backgroundSize: `${config.SPRITE_HEIGHT[imageSize]}px`,
+          height: `${config.SPRITE_HEIGHT[imageSize]}px`,
+          width: `${config.SPRITE_WIDTH[imageSize]}px`,
         }}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...htmlProps}
       />
     </OverlayTrigger>
   );
-}
+};
 export default HeroIcon;

@@ -71,7 +71,7 @@ function HeroOfTheDay() {
           ) : data && dailyHeroID > -1 ? (
             <>
               <div className="w-100 d-flex justify-content-center flex-wrap">
-                <HeroFull hero={data[dailyHeroID]} size="xs" isResplendent={false} fullType={portraitType as any} />
+                <HeroFull hero={data[dailyHeroID]} imageSize="xs" isResplendent={false} fullType={portraitType as any} />
                 <ButtonGroup className="my-2">
                   {
                     portraitTypes.map((por) => (

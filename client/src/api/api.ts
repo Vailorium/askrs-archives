@@ -1,4 +1,5 @@
 import IHeroBuild from '../interfaces/IHeroBuild';
+import IUserProfile from '../interfaces/IUserProfile';
 import { UserProfile } from '../services/UserSlice';
 
 function getCookie(name: string) {
@@ -77,6 +78,8 @@ const api = {
     async (buildId: string, buildData: IHeroBuild) => handleHttpRequest<IHeroBuild>('PUT', `/build/${buildId}`, { body: buildData }),
   deleteBuild:
     async (buildId: string) => handleHttpRequest<IHeroBuild>('DELETE', `/build/${buildId}`),
+  searchUserProfile:
+    async (search: string) => handleHttpRequest<{ profile: IUserProfile, builds: IHeroBuild[] }>('GET', `/profile/${search}`),
 };
 
 export default api;

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable import/prefer-default-export */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import IUserProfile from '../interfaces/IUserProfile';
+import IUserInfo from '../interfaces/IUserInfo';
 
 function getCookie(name: string) {
   const v = document.cookie.match(`(^|;) ?${name}=([^;]*)(;|$)`);
@@ -19,7 +19,7 @@ export const UserProfileAPI = createApi({
     }),
   }),
   endpoints: (builder) => ({
-    getUserProfile: builder.query<IUserProfile, void>({
+    getUserProfile: builder.query<IUserInfo, void>({
       query: () => 'profile',
     }),
   }),

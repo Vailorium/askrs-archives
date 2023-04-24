@@ -85,7 +85,7 @@ const BuildOptions = memo((props: BuildOptionsProps) => {
             label: `${name}: ${title}`,
             optionLabel: (
               <div className="d-flex align-items-center">
-                <div className="me-2"><HeroIcon hero={hero} size="sm" isResplendent={false} /></div>{name}: {title}
+                <div className="me-2"><HeroIcon hero={hero} imageSize="sm" isResplendent={false} /></div>{name}: {title}
               </div>
             ),
           });
