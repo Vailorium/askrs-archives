@@ -1,8 +1,7 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
-import { PermissionLevel, Role } from '../config';
+import CustomClaims from './CustomClaims';
 
-interface CustomDecodedIdToken extends DecodedIdToken {
-  role?: Role;
-  permissionLevel?: PermissionLevel;
+interface CustomDecodedIdToken extends DecodedIdToken, CustomClaims {
+
 }
 export default CustomDecodedIdToken;

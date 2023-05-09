@@ -48,7 +48,7 @@ const MyBuildsHeroRow: React.FC<MyBuildsHeroRowProps> = (props: MyBuildsHeroRowP
           {index + 1}
         </td>
         <td>
-          <HeroIcon hero={heroData} size="sm" isResplendent={!!hero.resplendent} />
+          <HeroIcon hero={heroData} imageSize="sm" isResplendent={!!hero.resplendent} />
         </td>
         <td>
           {hero.buildName ? hero.buildName : ''}

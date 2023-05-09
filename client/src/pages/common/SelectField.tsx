@@ -21,7 +21,19 @@ const SelectField = ({
   virtual = false,
   ...rest
 // eslint-disable-next-line max-len
-}: FieldProps & { options: any[], isValid: boolean, isInvalid: boolean, errorMessage: string, defaultValue: any, isDisabled: boolean, visualIndicators: boolean, expandMultiLine: boolean, onChangeEvent: (option: { label: string, value: any }) => void, virtual: boolean }): JSX.Element => (
+}: FieldProps &
+{
+  options: any[],
+  isValid: boolean,
+  isInvalid: boolean,
+  errorMessage: string,
+  defaultValue: any,
+  isDisabled: boolean,
+  visualIndicators: boolean,
+  expandMultiLine: boolean,
+  onChangeEvent: (option: { label: string, value: any }) => void,
+  virtual: boolean,
+}): JSX.Element => (
   <>
     <Select
       placeholder="--"
@@ -63,22 +75,22 @@ const SelectField = ({
       getOptionValue={(option) => option.label}
       getOptionLabel={(option) => (option.optionLabel ? option.optionLabel : option.label)}
       captureMenuScroll={!virtual}
-      // @ts-ignore
+    // @ts-ignore
       components={
-        virtual ? { Option: SelectFieldCustomOption, MenuList: SelectFieldVirtualMenuList }
-          : undefined
-      }
-      // eslint-disable-next-line react/jsx-props-no-spreading
+      virtual ? { Option: SelectFieldCustomOption, MenuList: SelectFieldVirtualMenuList }
+        : undefined
+    }
+    // eslint-disable-next-line react/jsx-props-no-spreading
       {...rest}
     />
     {
-    isInvalid
-    && (
-    <div className="custom-error-message-bootstrap">
-      {errorMessage}
-    </div>
-    )
-  }
+  isInvalid
+  && (
+  <div className="custom-error-message-bootstrap">
+    {errorMessage}
+  </div>
+  )
+}
   </>
 );
 export default SelectField;

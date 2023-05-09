@@ -1,6 +1,8 @@
 /* eslint-disable no-bitwise */
 import randomstring from 'randomstring';
-import { Element, IVS, SupportLevel } from '../enums';
+import {
+  Element, IVS, SupportLevel, WeaponType,
+} from '../enums';
 import IHeroBuild from '../interfaces/IHeroBuild';
 import { Legendary, SkillDataModel } from '../models';
 import UnitBuildValuesModel from '../models/UnitBuild/UnitBuildValuesModel';
@@ -167,6 +169,60 @@ const HeroData = {
     };
 
     return unitBuild;
+  },
+  getHeroColor(hero: HeroDataModel): 'red' | 'blue' | 'green' | 'colorless' {
+    switch (hero.weapon_type) {
+      case WeaponType.red_beast:
+        return 'red';
+      case WeaponType.red_bow:
+        return 'red';
+      case WeaponType.red_breath:
+        return 'red';
+      case WeaponType.red_dagger:
+        return 'red';
+      case WeaponType.red_tome:
+        return 'red';
+      case WeaponType.sword:
+        return 'red';
+      case WeaponType.blue_beast:
+        return 'blue';
+      case WeaponType.blue_bow:
+        return 'blue';
+      case WeaponType.blue_breath:
+        return 'blue';
+      case WeaponType.blue_dagger:
+        return 'blue';
+      case WeaponType.blue_tome:
+        return 'blue';
+      case WeaponType.lance:
+        return 'blue';
+      case WeaponType.green_beast:
+        return 'green';
+      case WeaponType.green_bow:
+        return 'green';
+      case WeaponType.green_breath:
+        return 'green';
+      case WeaponType.green_dagger:
+        return 'green';
+      case WeaponType.green_tome:
+        return 'green';
+      case WeaponType.axe:
+        return 'green';
+      case WeaponType.colorless_beast:
+        return 'colorless';
+      case WeaponType.colorless_bow:
+        return 'colorless';
+      case WeaponType.colorless_breath:
+        return 'colorless';
+      case WeaponType.colorless_dagger:
+        return 'colorless';
+      case WeaponType.colorless_tome:
+        return 'colorless';
+      case WeaponType.staff:
+        return 'colorless';
+      default:
+        return 'red';
+    }
   },
 };
 export default HeroData;

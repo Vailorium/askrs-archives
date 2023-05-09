@@ -96,16 +96,16 @@ class UnitDBIndividual extends React.Component<UnitDBIndividualProps, UnitDBIndi
               hero && (
                 <Carousel interval={null}>
                   <Carousel.Item>
-                    <HeroFull hero={hero} size="auto" isResplendent={isResplendent} fullType="default" />
+                    <HeroFull hero={hero} imageSize="auto" isResplendent={isResplendent} fullType="default" />
                   </Carousel.Item>
                   <Carousel.Item>
-                    <HeroFull hero={hero} size="auto" isResplendent={isResplendent} fullType="attack" />
+                    <HeroFull hero={hero} imageSize="auto" isResplendent={isResplendent} fullType="attack" />
                   </Carousel.Item>
                   <Carousel.Item>
-                    <HeroFull hero={hero} size="auto" isResplendent={isResplendent} fullType="special" />
+                    <HeroFull hero={hero} imageSize="auto" isResplendent={isResplendent} fullType="special" />
                   </Carousel.Item>
                   <Carousel.Item>
-                    <HeroFull hero={hero} size="auto" isResplendent={isResplendent} fullType="damaged" />
+                    <HeroFull hero={hero} imageSize="auto" isResplendent={isResplendent} fullType="damaged" />
                   </Carousel.Item>
                 </Carousel>
               )

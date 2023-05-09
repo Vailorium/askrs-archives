@@ -1,4 +1,4 @@
-import IHeroBuild from '../interfaces/IHeroBuild';
+import IHeroBuild from '../interfaces/db/IDBHeroBuild';
 import heroBuildSchema from './HeroBuildSchema';
 
 const validBuild: IHeroBuild = {

@@ -8,8 +8,8 @@ interface IUserProfile {
     twitter?: string;
     youtube?: string;
   };
+  favoriteHeroes: Array<Number>;
   favoriteBuilds: Array<string>;
-  favoriteHeroes: Array<number>;
   favoriteARD: Array<string>;
   favoriteARO: Array<string>;
 }

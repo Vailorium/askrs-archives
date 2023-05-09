@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin';
 import { App } from 'firebase-admin/app';
 import { Auth } from 'firebase-admin/lib/auth/auth';
 import CustomDecodedIdToken from '../interfaces/CustomDecodedIdToken';
+import CustomClaims from '../interfaces/CustomClaims';
 
 const serviceAccount: admin.ServiceAccount = {
   // type: process.env.FIREBASE_ADMIN_TYPE,
@@ -35,6 +36,15 @@ class FirebaseService {
       this.auth
         .verifySessionCookie(sessionCookie, true)
         .then((decodedClaims) => resolve(decodedClaims as CustomDecodedIdToken))
+        .catch(() => reject());
+    });
+  }
+
+  async getUserCustomClaimsByUid(uid: string): Promise<CustomClaims> {
+    return new Promise((resolve, reject) => {
+      this.auth
+        .getUser(uid)
+        .then((userRecord) => resolve(userRecord.customClaims as CustomClaims))
         .catch(() => reject());
     });
   }

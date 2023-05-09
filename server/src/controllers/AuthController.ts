@@ -2,9 +2,8 @@ import {
   CookieOptions, Request, Response, Router,
 } from 'express';
 import { PermissionLevel, Role } from '../config';
-import { createUserProfile, getUserProfileByUid } from '../models/UserProfileModel';
+import { createUserProfile } from '../models/UserProfileModel';
 import Controller from '../interfaces/Controller';
-import IUserProfile from '../interfaces/IUserProfile';
 import logger from '../logger';
 import FirebaseService from '../services/FirebaseService';
 import { validateBody } from '../middleware/ValidationMiddleware';
@@ -24,7 +23,6 @@ class AuthController implements Controller {
     this.router.post('/session', this.setupUserSession);
     this.router.delete('/session', this.destroyUserSession);
     this.router.delete('/sessions', this.destroyAllUserSessions);
-    this.router.get('/profile', this.getUserProfile);
   }
 
   private setupUserSession = async (req: Request<{}, {}, { idToken: string }>, res: Response) => {
@@ -89,7 +87,14 @@ class AuthController implements Controller {
       .verifyIdToken(idToken)
       .then(async (decodedIdToken) => {
         const { uid } = decodedIdToken;
-        createUserProfile({ uid, username })
+        createUserProfile({
+          uid,
+          username,
+          socials: {},
+          favoriteHeroes: [],
+          favoriteARD: [],
+          favoriteARO: [],
+        })
           .then(() => {
             FirebaseService.auth.setCustomUserClaims(
               uid,
@@ -109,39 +114,6 @@ class AuthController implements Controller {
       .catch((error) => {
         logger.warn('Error assigning user permissions/display name: ', error);
         res.status(401).send();
-      });
-  }
-
-  private getUserProfile = async (req: Request, res: Response<IUserProfile>) => {
-    // get user details from cookie
-    const sessionCookie = req.cookies.session;
-    FirebaseService.getUserClaimsFromSession(sessionCookie)
-      .then((decodedClaims) => {
-        const { uid } = decodedClaims;
-        let role = Role.USER;
-        if (decodedClaims.role) {
-          role = decodedClaims.role;
-        }
-        getUserProfileByUid(uid)
-          .then((userProfile) => {
-            res.status(200).send({
-              username: userProfile.username,
-              role,
-            });
-          })
-          .catch(() => {
-            logger.error(`User ${uid} is missing a user profile on the DB`);
-            res.status(200).send({
-              username: '',
-              role: Role.USER,
-            });
-          });
-      })
-      .catch(() => {
-        res.status(200).send({
-          username: '',
-          role: Role.USER,
-        });
       });
   }
 }

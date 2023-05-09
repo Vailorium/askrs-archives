@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { Request, Response, Router } from 'express';
 import Controller from '../interfaces/Controller';
-import IHeroBuild from '../interfaces/IHeroBuild';
+import IHeroBuild from '../interfaces/db/IDBHeroBuild';
 import logger from '../logger';
 import { verifySessionCookie } from '../middleware/AuthMiddleware';
 import CustomDecodedIdToken from '../interfaces/CustomDecodedIdToken';

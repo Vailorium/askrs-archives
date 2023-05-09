@@ -9,8 +9,8 @@ interface Config {
   emptyBuild: HeroBuildInfoModel;
   SPRITESHEET_WIDTH: number;
   SPRITESHEET_HEIGHT: number;
-  SPRITE_HEIGHT: { xs: number, sm: number, md: number, lg: number };
-  SPRITE_WIDTH: { xs: number, sm: number, md: number, lg: number };
+  SPRITE_HEIGHT: { xs: number, sm: number, md: number, lg: number, xl: number };
+  SPRITE_WIDTH: { xs: number, sm: number, md: number, lg: number, xl: number };
   FULL_HEIGHT: { xs: number, sm: number, md: number, lg: number };
   FULL_WIDTH: { xs: number, sm: number, md: number, lg: number };
   CANVAS: {
@@ -192,16 +192,18 @@ const config: Config = {
   SPRITESHEET_WIDTH: 13,
   SPRITESHEET_HEIGHT: 13,
   SPRITE_HEIGHT: {
-    xs: 19,
+    xs: 25,
     sm: 38,
     md: 57,
     lg: 76,
+    xl: 158,
   },
   SPRITE_WIDTH: {
-    xs: 19,
+    xs: 25,
     sm: 38,
     md: 57,
     lg: 76,
+    xl: 158,
   },
   FULL_HEIGHT: {
     xs: 480,
