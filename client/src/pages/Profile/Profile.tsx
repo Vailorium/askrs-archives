@@ -1,16 +1,18 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
-import { Card, Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
-import Slider from 'react-slick';
 import IUserProfile from '../../interfaces/IUserProfile';
 import IHeroBuild from '../../interfaces/IHeroBuild';
 import api from '../../api/api';
-import LoadingPanel from '../common/LoadingPanel';
 import { HeroDataModel } from '../../models';
 import HeroData from '../../services/HeroData';
 import { useFetchHeroListQuery, useFetchSkillListQuery } from '../../services/FEHDataApi';
-import HeroIcon from '../common/Hero/HeroIcon';
-import HeroBuildCard from '../common/HeroBuildCard/HeroBuildCard';
+import { useGetUserProfileQuery } from '../../services/UserProfileApi';
+import ViewProfile from './View/ViewProfile';
+import EditProfile from './Edit/EditProfile';
+import LoadingPanel from '../common/LoadingPanel';
+import { useGetLocaleDataQuery } from '../../services/FEHLocaleApi';
 
 interface ProfileParams {
   id: string;
@@ -18,9 +20,15 @@ interface ProfileParams {
 
 const Profile: React.FC = () => {
   const history = useHistory();
+  const { search } = history.location;
+  const params = new URLSearchParams(search);
 
+  const isInEditMode = params.get('edit') !== null;
+
+  const { data: localeData } = useGetLocaleDataQuery('USEN');
   const { data: heroList } = useFetchHeroListQuery();
   const { data: skillList } = useFetchSkillListQuery();
+  const { data: myProfile } = useGetUserProfileQuery();
 
   const { id } = useParams<ProfileParams>();
   const [profile, setProfile] = useState<IUserProfile>();
@@ -46,76 +54,43 @@ const Profile: React.FC = () => {
       );
     }
   }, [heroList, profile]);
-  // id -> get profile -> 404 or success -> change route to username
+
+  const isViewingOwnProfile = myProfile && profile && myProfile.uid === profile.uid;
   return (
     <Container>
-      <Card className="border-0 profile-card" as={Container}>
-        <Row>
-          <div className="profile-banner" />
-        </Row>
-        {
-          profile && builds ? (
-            <>
-              <Row style={{ borderTop: '2px solid black', justifyContent: 'center' }}>
-                { hero && <HeroIcon hero={hero} imageSize="xl" isResplendent={false} className="rounded-circle profile-image" />}
-              </Row>
-              <Row style={{ justifyContent: 'center' }}>
-                <h2 className="text-center">{profile.username}</h2>
-              </Row>
-              <Row>
-                <h3>Builds</h3>
-                <Slider
-                  dots
-                  infinite={false}
-                  speed={500}
-                  slidesToShow={4}
-                  slidesToScroll={1}
-                  initialSlide={0}
-                  swipeToSlide
-                >
-                  {
-                    heroList && skillList
-                      && builds.map((b) => (
-                        <HeroBuildCard
-                          build={HeroData.convertToFullBuild(b, heroList, skillList)}
-                        />
-                      ))
-                  }
-                </Slider>
-              </Row>
-              <Row>
-                <h3>AR-D Builds</h3>
-                <p>{builds.length}</p>
-              </Row>
-              <Row>
-                <h3>AR-O Teams</h3>
-                <p>{builds.length}</p>
-              </Row>
-              <Row>
-                <h3>Favorite Heroes</h3>
-                <p>{builds.length}</p>
-              </Row>
-              <Row>
-                <h3>Favorite Builds</h3>
-                <p>{builds.length}</p>
-              </Row>
-              <Row>
-                <h3>Favorite ARD</h3>
-                <p>{builds.length}</p>
-              </Row>
-              <Row>
-                <h3>Favorite ARO</h3>
-                <p>{builds.length}</p>
-              </Row>
-            </>
+      {
+        // check truthy
+        // eslint-disable-next-line no-nested-ternary
+        (profile && hero && builds && isViewingOwnProfile !== undefined && heroList && skillList && localeData)
+          ? (isInEditMode
+            ? (
+              <EditProfile
+                profile={profile}
+                builds={builds}
+                isViewingOwnProfile={isViewingOwnProfile}
+                heroList={heroList}
+                skillList={skillList}
+                setBuilds={setBuilds}
+                localeData={localeData}
+                setProfile={setProfile}
+              />
+            ) : (
+              <ViewProfile
+                profile={profile}
+                hero={hero}
+                builds={builds}
+                isViewingOwnProfile={isViewingOwnProfile}
+                heroList={heroList}
+                skillList={skillList}
+                setBuilds={setBuilds}
+              />
+            )
           ) : (
             <Row style={{ minHeight: '500px' }}>
               <LoadingPanel loading />
             </Row>
           )
-        }
-
-      </Card>
+      }
     </Container>
   );
 };

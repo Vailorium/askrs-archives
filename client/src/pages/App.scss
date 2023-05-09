@@ -113,6 +113,29 @@
 	border: 2px solid black;
 }
 
+.edit-profile-image {
+	height: 158px;
+	width: 158px;
+	position: absolute;
+	z-index: 2;
+	background-color: #5555554d;
+	border: 2px transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: -120px;
+	border-radius: 50% !important;
+}
+
+.edit-profile-image:hover {
+	background-color: #55555556;
+}
+
+.edit-profile-image > .edit-profile-image-icon {
+	height: 30px;
+	color: white;
+}
+
 //
 // Hero Build Card
 //

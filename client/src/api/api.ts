@@ -80,6 +80,8 @@ const api = {
     async (buildId: string) => handleHttpRequest<IHeroBuild>('DELETE', `/build/${buildId}`),
   searchUserProfile:
     async (search: string) => handleHttpRequest<{ profile: IUserProfile, builds: IHeroBuild[] }>('GET', `/profile/${search}`),
+  updateUserProfile:
+    async (profile: IUserProfile) => handleHttpRequest<IUserProfile>('PUT', '/profile', { body: profile }),
 };
 
 export default api;

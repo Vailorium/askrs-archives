@@ -2,6 +2,7 @@ import { Role } from '../../config';
 
 interface IDBUserInfo {
   username: string;
+  uid: string;
 }
 
 interface IUserInfo extends IDBUserInfo {

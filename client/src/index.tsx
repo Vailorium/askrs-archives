@@ -5,7 +5,13 @@ import { Provider } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import {
-  faEdit, faEye, faTrash, faEyeSlash, faPlusCircle,
+  faEdit,
+  faEye,
+  faTrash,
+  faEyeSlash,
+  faPlusCircle,
+  faSave,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
@@ -16,6 +22,8 @@ library.add(fab, faTrash);
 library.add(fab, faEye);
 library.add(fab, faEyeSlash);
 library.add(fab, faPlusCircle);
+library.add(fab, faSave);
+library.add(fab, faTimes);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
