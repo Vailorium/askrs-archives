@@ -9,7 +9,7 @@ interface IUserProfile {
     youtube?: string;
   };
   favoriteBuilds: Array<string>;
-  favoriteHeroes: Array<Number>;
+  favoriteHeroes: Array<number>;
   favoriteARD: Array<string>;
   favoriteARO: Array<string>;
 }

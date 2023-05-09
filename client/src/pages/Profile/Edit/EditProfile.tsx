@@ -14,6 +14,9 @@ import { HeroDataModel, SkillDataModel } from '../../../models';
 import IHeroBuild from '../../../interfaces/IHeroBuild';
 import EditProfileImageModal from './EditProfileImageModal';
 import api from '../../../api/api';
+import EditProfileFavoriteHeroes from './EditProfileFavoriteHeroes';
+import EditProfileFC from './EditProfileFC';
+import EditProfileSocials from './EditProfileSocials';
 
 interface EditProfileProps {
   profile: IUserProfile;
@@ -128,6 +131,20 @@ const EditProfile: React.FC<EditProfileProps> = (
         }
       </Row>
       <Row>
+        <h3>Friend Code</h3>
+        <EditProfileFC
+          editedProfile={editedProfile}
+          setEditedProfile={setEditedProfile}
+        />
+      </Row>
+      <Row>
+        <h3>Socials</h3>
+        <EditProfileSocials
+          editedProfile={editedProfile}
+          setEditedProfile={setEditedProfile}
+        />
+      </Row>
+      <Row>
         <h3>Featured Builds <Button variant="link">See all</Button></h3>
         <Slider
           dots
@@ -164,7 +181,12 @@ const EditProfile: React.FC<EditProfileProps> = (
       </Row>
       <Row>
         <h3>Favorite Heroes</h3>
-        <p>{builds.length}</p>
+        <EditProfileFavoriteHeroes
+          heroList={heroList}
+          localeData={localeData}
+          editedProfile={editedProfile}
+          setEditedProfile={setEditedProfile}
+        />
       </Row>
       <Row>
         <h3>Favorite Builds</h3>

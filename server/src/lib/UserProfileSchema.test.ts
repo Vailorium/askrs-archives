@@ -5,7 +5,7 @@ const validUserProfile = {
   uid: 'user123',
   username: 'user123',
   picture: 1,
-  friendCode: '1234-5678-9101',
+  friendCode: '7812311932',
   socials: {
     reddit: 'user123',
     twitter: 'twitter123',

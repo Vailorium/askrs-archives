@@ -2,11 +2,30 @@
 @import "~slick-carousel/slick/slick.css"; 
 @import "~slick-carousel/slick/slick-theme.css";
 
+$primary-text-color: rgb(33, 37, 41);
+$accent-text-color: #6c757d;
+
+//
+// General
+//
 .main{
 	min-height: calc(100vh - 112px);
 	background-repeat: repeat;
 }
 
+.text-color-accent {
+	color: $accent-text-color;
+}
+
+.social-icon {
+	color: $accent-text-color;
+	height: 30px;
+	width: 30px;
+}
+
+.social-icon:hover {
+	color: $primary-text-color;
+}
 // Custom Select Field
 .custom-option:hover {
 	background: #deebff;
